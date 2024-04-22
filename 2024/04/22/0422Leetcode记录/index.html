@@ -22,30 +22,33 @@
     var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Hi, you can call me neko! Hope to be friend with you :)">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NekoCyan&#39;s Blog">
-<meta property="og:url" content="https://ccchaosss.github.io/index.html">
+  <meta name="description" content="0422Leetcode记录今天也是不想背八股的一天，刷题！ 每日一题力扣377题组合总和IV  给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。  首先是今天的每日一题，先是用回溯法写，测试用例通过但是提交超时。 123456789101112131415161718192021222324cla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0422Leetcode记录">
+<meta property="og:url" content="https://ccchaosss.github.io/2024/04/22/0422Leetcode%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
-<meta property="og:description" content="Hi, you can call me neko! Hope to be friend with you :)">
+<meta property="og:description" content="0422Leetcode记录今天也是不想背八股的一天，刷题！ 每日一题力扣377题组合总和IV  给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。  首先是今天的每日一题，先是用回溯法写，测试用例通过但是提交超时。 123456789101112131415161718192021222324cla">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-22T01:23:33.000Z">
+<meta property="article:modified_time" content="2024-04-22T06:52:25.311Z">
 <meta property="article:author" content="NekoCyan">
+<meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccchaosss.github.io/">
+<link rel="canonical" href="https://ccchaosss.github.io/2024/04/22/0422Leetcode%E8%AE%B0%E5%BD%95/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>NekoCyan's Blog</title>
+  <title>0422Leetcode记录 | NekoCyan's Blog</title>
   
 
 
@@ -188,148 +191,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/22/0422%E5%85%AB%E8%82%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/22/0422%E5%85%AB%E8%82%A1/" class="post-title-link" itemprop="url">0422八股</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-22 09:53:31 / 修改时间：13:22:16" itemprop="dateCreated datePublished" datetime="2024-04-22T09:53:31+08:00">2024-04-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">八股</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽</p>
-<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><p>线程私有：</p>
-<ul>
-<li>程序计数器</li>
-<li>本地方法栈</li>
-<li>java虚拟机栈</li>
-</ul>
-<p>线程共享：</p>
-<ul>
-<li>堆（存放对象，分为新生代和老年代）</li>
-<li>方法区</li>
-</ul>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
-<li><p>程序计数器：和程序运行到哪里有关</p>
-</li>
-<li><p>本地方法栈（C栈），栈帧</p>
-</li>
-<li><p>虚拟机栈，运行速度快（仅次于程序计数器）</p>
-</li>
-<li><p>堆，整个JVM只有一个，垃圾回收的主要场所</p>
-<blockquote>
-<p>对象分配时候在堆中新生代Eden区（还有survivor0和survivor1）</p>
-</blockquote>
-</li>
-<li><p>方法区，堆发逻辑部分，线程共享。存放已经背虚拟机加载的类信息、常量、静态变量、即时编译后代码</p>
-</li>
-</ol>
-<h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><p>对象优先在新生代的Eden区，大对象（Eden放不下）直接进入老年代。</p>
-<p>长期存活对象（GC存活次数）进入老年代。</p>
-<h2 id="垃圾回收策略与算法"><a href="#垃圾回收策略与算法" class="headerlink" title="垃圾回收策略与算法"></a>垃圾回收策略与算法</h2><h3 id="Minor-GC与Full-GC"><a href="#Minor-GC与Full-GC" class="headerlink" title="Minor GC与Full GC"></a>Minor GC与Full GC</h3><ul>
-<li>Minor GC：回收新生代，速度快，非常频繁</li>
-<li>Full GC：回收老年代，经常会伴随至少一次Minor GC，速度很慢</li>
-</ul>
-<p><strong>触发FullGC的操作</strong>：</p>
-<p>①调用system.gc（建议Fullgc但不一定发生）</p>
-<p>②统计得到的MinorGC晋升到老年代的平均大小大于老年代剩余空间</p>
-<p>③担保失败</p>
-<h3 id="（堆）回收谁？"><a href="#（堆）回收谁？" class="headerlink" title="（堆）回收谁？"></a><strong>（堆）回收谁？</strong></h3><p>–&gt;无效<strong>对象</strong></p>
-<p><strong>如何判断无效？</strong><br>–&gt;不被任何对象或变量引用则无效</p>
-<p><strong>引用种类</strong><br>–&gt; 强引用、软引用、弱引用、虚引用</p>
-<p><strong>如何分析引用</strong><br>–&gt; 引用技术法、可达性分析法</p>
-<h3 id="（方法区）回收谁"><a href="#（方法区）回收谁" class="headerlink" title="（方法区）回收谁"></a><strong>（方法区）回收谁</strong></h3><p>–&gt; 废弃常量、无用的类</p>
-<p><strong>判断回收</strong><br>–&gt;废弃<strong>常量</strong><br>–&gt;无用的<strong>类</strong></p>
-<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><ol>
-<li>标记-清除算法<ul>
-<li>优：（……没有？）</li>
-<li>缺：空间、时间效率都不高；产生大量不连续碎片</li>
-</ul>
-</li>
-<li>复制算法（新生代）<ul>
-<li>优：不会有内存碎片的问题</li>
-<li>缺：内存空间减少一半</li>
-</ul>
-</li>
-<li>标记-整理算法（老年代）<ul>
-<li>老年代的垃圾收集算法，不采用复制是因为老年代的对象都比较大，效率比较低</li>
-</ul>
-</li>
-<li>分代收集算法<ul>
-<li>新生代：复制算法</li>
-<li>老年代：标记-清除；标记-整理</li>
-</ul>
-</li>
-</ol>
-<h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><p>类文件</p>
-<ul>
-<li>符号引用：就是定义的各种名字：<strong>类和接口的限定全名</strong>、字段的名字和描述符、<strong>方法的名字和描述符</strong></li>
-</ul>
-<h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><p>过程： 加载、验证、准备、解析、初始化。</p>
-<ul>
-<li>解析：将常量池内的符号引用替换为直接引用的过程</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -345,10 +210,9 @@
       <meta itemprop="name" content="NekoCyan's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/22/0422Leetcode%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">0422Leetcode记录</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          0422Leetcode记录
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -372,7 +236,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="0422Leetcode记录"><a href="#0422Leetcode记录" class="headerlink" title="0422Leetcode记录"></a>0422Leetcode记录</h1><p>今天也是不想背八股的一天，刷题！</p>
+        <h1 id="0422Leetcode记录"><a href="#0422Leetcode记录" class="headerlink" title="0422Leetcode记录"></a>0422Leetcode记录</h1><p>今天也是不想背八股的一天，刷题！</p>
 <h2 id="每日一题"><a href="#每日一题" class="headerlink" title="每日一题"></a>每日一题</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum-iv/description/">力扣377题组合总和IV</a></p>
 <blockquote>
 <p>给你一个由 <strong>不同</strong> 整数组成的数组 <code>nums</code> ，和一个目标整数 <code>target</code> 。请你从 <code>nums</code> 中找出并返回总和为 <code>target</code> 的元素组合的个数。</p>
@@ -384,235 +248,36 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">combinationSum4</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[target + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=target; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> num : nums)&#123;</span><br><span class="line">                <span class="keyword">if</span>(num &lt;= i)&#123;</span><br><span class="line">                    dp[i] += dp[i-num];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="hot100单词搜索"><a href="#hot100单词搜索" class="headerlink" title="hot100单词搜索"></a>hot100单词搜索</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">exist</span><span class="params">(<span class="type">char</span>[][] board, String word)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> board.length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> board[<span class="number">0</span>].length;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">visited</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">boolean</span>[m][n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;m; ++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;n; ++j)&#123;</span><br><span class="line">                <span class="type">boolean</span> <span class="variable">tmp</span> <span class="operator">=</span> check(board, visited, i, j, word, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span>(tmp)&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">check</span><span class="params">(<span class="type">char</span>[][] board, <span class="type">boolean</span>[][] visited, <span class="type">int</span> i, <span class="type">int</span> j, String s, <span class="type">int</span> k)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(board[i][j] != s.charAt(k))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(k == s.length()-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        visited[i][j] = <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span>[][] dirs = &#123; &#123;<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;-<span class="number">1</span>,<span class="number">0</span>&#125;, &#123;<span class="number">0</span>,<span class="number">1</span>&#125;, &#123;<span class="number">0</span>,-<span class="number">1</span>&#125; &#125;;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span>[] dir : dirs)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">newi</span> <span class="operator">=</span> i+dir[<span class="number">0</span>], newj = j+dir[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(newi&gt;=<span class="number">0</span>&amp;&amp;newi&lt;board.length &amp;&amp; newj&gt;=<span class="number">0</span>&amp;&amp;newj&lt;board[<span class="number">0</span>].length)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!visited[newi][newj])&#123;</span><br><span class="line">                    <span class="type">boolean</span> <span class="variable">tag</span> <span class="operator">=</span> check(board, visited, newi, newj, s, k+<span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span>(tag)&#123;</span><br><span class="line">                        res = <span class="literal">true</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/21/leetcode_04_21/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/21/leetcode_04_21/" class="post-title-link" itemprop="url">Leetcode回溯1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-21 14:59:00 / 修改时间：14:06:59" itemprop="dateCreated datePublished" datetime="2024-04-21T14:59:00+08:00">2024-04-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="回溯题"><a href="#回溯题" class="headerlink" title="回溯题"></a>回溯题</h1><p>这里打算写一下最近在刷的回溯算法的题</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/21/learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/21/learn/" class="post-title-link" itemprop="url">【Hello World】</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-21 14:59:00 / 修改时间：16:17:05" itemprop="dateCreated datePublished" datetime="2024-04-21T14:59:00+08:00">2024-04-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Daily/" itemprop="url" rel="index"><span itemprop="name">Daily</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="HELLO-WORLD"><a href="#HELLO-WORLD" class="headerlink" title="HELLO WORLD"></a>HELLO WORLD</h1><p>hi 这里是neko，请多指教！</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/21/daily_2024_04_21/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/21/daily_2024_04_21/" class="post-title-link" itemprop="url">0421日记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-04-21 14:59:00 / 修改时间：16:32:32" itemprop="dateCreated datePublished" datetime="2024-04-21T14:59:00+08:00">2024-04-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Daily/" itemprop="url" rel="index"><span itemprop="name">Daily</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="今日记录"><a href="#今日记录" class="headerlink" title="今日记录"></a>今日记录</h1><p>今天把博客整体框架搭好了，本来想昨天弄的，但是雨下得太大啦！懒得来实验室，在寝室睡大觉喽😃</p>
-<p>晚上在寝室看LOL春季赛决赛，BLG终于拿冠军了😿太不容易了，elk是fmvp！！开心呜呜呜，努力都会有回报的！ON和Elk的家人都来了，在各自家人的见证下拿冠军这和订婚有什么区别👍</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/04/21/daily_2024_04_21/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/21/leetcode_04_21/" rel="prev" title="Leetcode回溯1">
+      <i class="fa fa-chevron-left"></i> Leetcode回溯1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/04/22/0422%E5%85%AB%E8%82%A1/" rel="next" title="0422八股">
+      0422八股 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -665,6 +330,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0422Leetcode%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">0422Leetcode记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">每日一题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hot100%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2"><span class="nav-number">1.2.</span> <span class="nav-text">hot100单词搜索</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
