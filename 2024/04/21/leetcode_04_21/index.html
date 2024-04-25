@@ -22,17 +22,19 @@
     var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="这里打算整理一下最近在刷的回溯算法的题">
+  <meta name="description" content="01背包理论基础问题：有n件物品和一个最多能背重量为w的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。 二维数组dp[i][j]表示，从下标为[0-i]的物品里任意取，放进容量为j的背包，价值的总和。递推公式：$$ dp[i][j] &#x3D; max(dp[i-1][j], dp[i][j-weight">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode回溯">
+<meta property="og:title" content="背包问题">
 <meta property="og:url" content="https://ccchaosss.github.io/2024/04/21/leetcode_04_21/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
-<meta property="og:description" content="这里打算整理一下最近在刷的回溯算法的题">
+<meta property="og:description" content="01背包理论基础问题：有n件物品和一个最多能背重量为w的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。 二维数组dp[i][j]表示，从下标为[0-i]的物品里任意取，放进容量为j的背包，价值的总和。递推公式：$$ dp[i][j] &#x3D; max(dp[i-1][j], dp[i][j-weight">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-21T06:59:00.295Z">
-<meta property="article:modified_time" content="2024-04-23T13:49:08.892Z">
+<meta property="article:modified_time" content="2024-04-25T11:48:54.354Z">
 <meta property="article:author" content="NekoCyan">
 <meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="01背包">
+<meta property="article:tag" content="完全背包">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://ccchaosss.github.io/2024/04/21/leetcode_04_21/">
@@ -48,7 +50,7 @@
   };
 </script>
 
-  <title>Leetcode回溯 | NekoCyan's Blog</title>
+  <title>背包问题 | NekoCyan's Blog</title>
   
 
 
@@ -129,7 +131,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -211,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Leetcode回溯
+          背包问题
         </h1>
 
         <div class="post-meta">
@@ -228,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-04-23 21:49:08" itemprop="dateModified" datetime="2024-04-23T21:49:08+08:00">2024-04-23</time>
+                <time title="修改时间：2024-04-25 19:48:54" itemprop="dateModified" datetime="2024-04-25T19:48:54+08:00">2024-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,7 +253,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>这里打算整理一下最近在刷的回溯算法的题</p>
+        <h2 id="01背包理论基础"><a href="#01背包理论基础" class="headerlink" title="01背包理论基础"></a>01背包理论基础</h2><p><strong>问题</strong>：有n件物品和一个最多能背重量为w的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。</p>
+<p><strong>二维数组dp[i][j]表示</strong>，从下标为[0-i]的物品里任意取，放进容量为j的背包，<strong>价值的总和</strong>。<br>递推公式：<br>$$ dp[i][j] &#x3D; max(dp[i-1][j], dp[i][j-weight[i]]+value[i])$$</p>
+<span id="more"></span>
+<p>即当前的价值，要么<strong>等于上一个物品（i-1）</strong>放进背包中时一样的价值（即i物品没有放进来），要么等于放入这个物品后的价值总和，并且此时背包<strong>容量j</strong>要<strong>减去i</strong>物品的重量<strong>weight[i]</strong></p>
+<p>初始化时，dp[0][j]：只放进去物品0的价值</p>
+<p>dp[i][0]分别为未放入物品时候背包价值</p>
+<p>因为初始化dp数组时候j多一维度。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BagProblem</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] weight = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        <span class="type">int</span>[] value = &#123;<span class="number">15</span>,<span class="number">20</span>,<span class="number">30</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">bagSize</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">        testWeightBagProblem(weight,value,bagSize);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 动态规划获得结果</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> weight  物品的重量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value   物品的价值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bagSize 背包的容量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">testWeightBagProblem</span><span class="params">(<span class="type">int</span>[] weight, <span class="type">int</span>[] value, <span class="type">int</span> bagSize)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建dp数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">goods</span> <span class="operator">=</span> weight.length;  <span class="comment">// 获取物品的数量</span></span><br><span class="line">        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[goods][bagSize + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化dp数组</span></span><br><span class="line">        <span class="comment">// 创建数组后，其中默认的值就是0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> weight[<span class="number">0</span>]; j &lt;= bagSize; j++) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][j] = value[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 填充dp数组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; weight.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= bagSize; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; weight[i]) &#123;</span><br><span class="line">                    <span class="comment">/**</span></span><br><span class="line"><span class="comment">                     * 当前背包的容量都没有当前物品i大的时候，是不放物品i的</span></span><br><span class="line"><span class="comment">                     * 那么前i-1个物品能放下的最大价值就是当前情况的最大价值</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">/**</span></span><br><span class="line"><span class="comment">                     * 当前背包的容量可以放下物品i</span></span><br><span class="line"><span class="comment">                     * 那么此时分两种情况：</span></span><br><span class="line"><span class="comment">                     *    1、不放物品i</span></span><br><span class="line"><span class="comment">                     *    2、放物品i</span></span><br><span class="line"><span class="comment">                     * 比较这两种情况下，哪种背包中物品的最大价值最大</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                    dp[i][j] = Math.max(dp[i-<span class="number">1</span>][j] , dp[i-<span class="number">1</span>][j-weight[i]] + value[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印dp数组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; goods; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;= bagSize; j++) &#123;</span><br><span class="line">                System.out.print(dp[i][j] + <span class="string">&quot;\t&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="01背包理论基础（滚动数组）"><a href="#01背包理论基础（滚动数组）" class="headerlink" title="01背包理论基础（滚动数组）"></a>01背包理论基础（滚动数组）</h2><p>滚动数组，需要满足的条件是上一层可以重复利用，直接拷贝到当前层。</p>
+<p>于是上面递推公式就变为：<br>$$ dp[j] &#x3D; max(dp[j], dp[j-weight[i]+value[i]])$$</p>
+<p><strong>要注意初始化</strong>，dp[j]表示容量为j的背包所背的物品最大价值为dp[j]，那么dp[0]就应该是0.整<strong>个数组全部初始化为0</strong></p>
+<blockquote>
+<p>dp数组在推导的时候一定是取价值最大的数，如果题目给的价值都是正整数那么非0下标都初始化为0就可以了。这样才能让dp数组在递归公式的过程中取的最大的价值，而不是被初始值覆盖了</p>
+</blockquote>
+<p>重点代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; weight.size(); i++) &#123; <span class="comment">// 遍历物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> bagWeight; j &gt;= weight[i]; j--) &#123; <span class="comment">// 遍历背包容量</span></span><br><span class="line">        dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>遍历背包的顺序一定是从大到小的，因为一旦正序遍历，取得的状态会和之前状态重合</strong></p>
+<p>不想看了。。。今天就到这吧。。。&#x2F;&#x2F; 2024&#x2F;4&#x2F;25</p>
 
     </div>
 
@@ -262,6 +283,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+              <a href="/tags/01%E8%83%8C%E5%8C%85/" rel="tag"># 01背包</a>
+              <a href="/tags/%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85/" rel="tag"># 完全背包</a>
           </div>
 
         
@@ -335,6 +358,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#01%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">01背包理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#01%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80%EF%BC%88%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">01背包理论基础（滚动数组）</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -363,7 +387,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
