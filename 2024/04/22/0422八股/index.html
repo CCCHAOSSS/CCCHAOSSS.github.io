@@ -247,8 +247,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽</p>
-<span id="more"></span>
+        <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽<br><span id="more"></span></p>
 <h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><p>线程私有：</p>
 <ul>
 <li>程序计数器</li>
@@ -261,10 +260,8 @@
 <li>方法区</li>
 </ul>
 <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
-<li><p>程序计数器：和程序运行到哪里有关</p>
-</li>
-<li><p>本地方法栈（C栈），栈帧</p>
-</li>
+<li>程序计数器：和程序运行到哪里有关</li>
+<li>本地方法栈（C栈），栈帧</li>
 <li><p>虚拟机栈，运行速度快（仅次于程序计数器）</p>
 </li>
 <li><p>堆，整个JVM只有一个，垃圾回收的主要场所</p>
@@ -272,8 +269,7 @@
 <p>对象分配时候在堆中新生代Eden区（还有survivor0和survivor1）</p>
 </blockquote>
 </li>
-<li><p>方法区，堆发逻辑部分，线程共享。存放已经背虚拟机加载的类信息、常量、静态变量、即时编译后代码</p>
-</li>
+<li>方法区，堆发逻辑部分，线程共享。存放已经背虚拟机加载的类信息、常量、静态变量、即时编译后代码</li>
 </ol>
 <h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><p>对象优先在新生代的Eden区，大对象（Eden放不下）直接进入老年代。</p>
 <p>长期存活对象（GC存活次数）进入老年代。</p>
@@ -285,12 +281,12 @@
 <p>①调用system.gc（建议Fullgc但不一定发生）</p>
 <p>②统计得到的MinorGC晋升到老年代的平均大小大于老年代剩余空间</p>
 <p>③担保失败</p>
-<h3 id="（堆）回收谁？"><a href="#（堆）回收谁？" class="headerlink" title="（堆）回收谁？"></a><strong>（堆）回收谁？</strong></h3><p>–&gt;无效<strong>对象</strong></p>
-<p><strong>如何判断无效？</strong><br>–&gt;不被任何对象或变量引用则无效</p>
-<p><strong>引用种类</strong><br>–&gt; 强引用、软引用、弱引用、虚引用</p>
-<p><strong>如何分析引用</strong><br>–&gt; 引用技术法、可达性分析法</p>
-<h3 id="（方法区）回收谁"><a href="#（方法区）回收谁" class="headerlink" title="（方法区）回收谁"></a><strong>（方法区）回收谁</strong></h3><p>–&gt; 废弃常量、无用的类</p>
-<p><strong>判断回收</strong><br>–&gt;废弃<strong>常量</strong><br>–&gt;无用的<strong>类</strong></p>
+<h3 id="（堆）回收谁？"><a href="#（堆）回收谁？" class="headerlink" title="（堆）回收谁？"></a><strong>（堆）回收谁？</strong></h3><p>—&gt;无效<strong>对象</strong></p>
+<p><strong>如何判断无效？</strong><br>—&gt;不被任何对象或变量引用则无效</p>
+<p><strong>引用种类</strong><br>—&gt; 强引用、软引用、弱引用、虚引用</p>
+<p><strong>如何分析引用</strong><br>—&gt; 引用技术法、可达性分析法</p>
+<h3 id="（方法区）回收谁"><a href="#（方法区）回收谁" class="headerlink" title="（方法区）回收谁"></a><strong>（方法区）回收谁</strong></h3><p>—&gt; 废弃常量、无用的类</p>
+<p><strong>判断回收</strong><br>—&gt;废弃<strong>常量</strong><br>—&gt;无用的<strong>类</strong></p>
 <h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><ol>
 <li>标记-清除算法<ul>
 <li>优：（……没有？）</li>

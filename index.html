@@ -242,10 +242,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="hot100之买卖股票的最佳时机"><a href="#hot100之买卖股票的最佳时机" class="headerlink" title="hot100之买卖股票的最佳时机"></a>hot100之买卖股票的最佳时机</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/?envType=study-plan-v2&envId=top-100-liked">121买卖股票的最佳时机</a></p>
+          <h2 id="hot100之买卖股票的最佳时机"><a href="#hot100之买卖股票的最佳时机" class="headerlink" title="hot100之买卖股票的最佳时机"></a>hot100之买卖股票的最佳时机</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/?envType=study-plan-v2&amp;envId=top-100-liked">121买卖股票的最佳时机</a></p>
 <blockquote>
-<p>给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。<br>你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。<br>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。</p>
-</blockquote>
+<p>给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。<br>你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。<br>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。<br>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/24/0424leetcode/#more" rel="contents">
@@ -404,7 +403,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="每日一题"><a href="#每日一题" class="headerlink" title="每日一题"></a>每日一题</h2><p>2024&#x2F;04&#x2F;23</p>
+          <h2 id="每日一题"><a href="#每日一题" class="headerlink" title="每日一题"></a>每日一题</h2><p>2024/04/23</p>
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/grumpy-bookstore-owner/description/">1052</a></p>
 <blockquote>
 <p>有一个书店老板，他的书店开了 n 分钟。每分钟都有一些顾客进入这家商店。给定一个长度为 n 的整数数组 customers ，其中 customers[i] 是在第 i 分钟开始时进入商店的顾客数量，所有这些顾客在第 i 分钟结束后离开。</p>
@@ -483,7 +482,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽</p>
+          <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽<br>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/22/0422%E5%85%AB%E8%82%A1/#more" rel="contents">
@@ -554,7 +553,7 @@
 <blockquote>
 <p>给你一个由 <strong>不同</strong> 整数组成的数组 <code>nums</code> ，和一个目标整数 <code>target</code> 。请你从 <code>nums</code> 中找出并返回总和为 <code>target</code> 的元素组合的个数。</p>
 </blockquote>
-<p>首先是今天的每日一题，先是用回溯法写，测试用例通过但是提交超时。</p>
+<p>首先是今天的每日一题，先是用回溯法写，测试用例通过但是提交超时。<br>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/22/0422Leetcode%E8%AE%B0%E5%BD%95/#more" rel="contents">
@@ -636,7 +635,8 @@
 
       
           <h2 id="01背包理论基础"><a href="#01背包理论基础" class="headerlink" title="01背包理论基础"></a>01背包理论基础</h2><p><strong>问题</strong>：有n件物品和一个最多能背重量为w的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。</p>
-<p><strong>二维数组dp[i][j]表示</strong>，从下标为[0-i]的物品里任意取，放进容量为j的背包，<strong>价值的总和</strong>。<br>递推公式：<br>$$ dp[i][j] &#x3D; max(dp[i-1][j], dp[i][j-weight[i]]+value[i])$$</p>
+<p><strong>二维数组dp[i][j]表示</strong>，从下标为[0-i]的物品里任意取，放进容量为j的背包，<strong>价值的总和</strong>。<br>递推公式：</p>
+<script type="math/tex; mode=display">dp[i][j] = max(dp[i-1][j], dp[i][j-weight[i]]+value[i])</script>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/21/leetcode_04_21/#more" rel="contents">
