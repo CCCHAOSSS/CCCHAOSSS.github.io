@@ -26,7 +26,7 @@
     --text-color: #cdb5cd;
     --blockquote-color: #bbb;
     --link-color: #cdb5cd;
-    --link-hover-color: #483d8b;
+    --link-hover-color: #f5f5dc;
     --brand-color: #e6e6fa;
     --brand-hover-color: #e6e6fa;
     --table-row-odd-bg-color: #282828;
@@ -196,7 +196,7 @@ template {
 }
 ::selection {
   background: #262a30;
-  color: #483d8b;
+  color: #f5f5dc;
 }
 html,
 body {
@@ -295,7 +295,7 @@ dd {
 }
 kbd {
   background-color: #f0f8ff;
-  background-image: linear-gradient(#483d8b, #fff, #483d8b);
+  background-image: linear-gradient(#f5f5dc, #fff, #f5f5dc);
   border: 1px solid #cdb5cd;
   border-radius: 0.2em;
   box-shadow: 0.1em 0.1em 0.2em rgba(0,0,0,0.1);
@@ -427,8 +427,8 @@ td {
   transition-delay: 0s;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
-  background-color: #483d8b;
-  background-image: linear-gradient(#fcfcfc, #483d8b);
+  background-color: #f5f5dc;
+  background-image: linear-gradient(#fcfcfc, #f5f5dc);
   border: 1px solid #d5d5d5;
   border-radius: 3px;
   font-size: 0.8125em;
@@ -447,7 +447,7 @@ code {
   font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #483d8b;
+  background: #f5f5dc;
   border-radius: 3px;
   color: #8b7b8b;
   padding: 2px 4px;
@@ -771,7 +771,7 @@ pre .javascript .function {
   margin-bottom: 20px;
   padding: 1em;
   position: relative;
-  border: 1px solid #483d8b;
+  border: 1px solid #f5f5dc;
   border-left-width: 5px;
 }
 .post-body .note h2,
@@ -881,7 +881,7 @@ pre .javascript .function {
   }
 }
 .pagination {
-  border-top: 1px solid #483d8b;
+  border-top: 1px solid #f5f5dc;
   margin: 120px 0 0;
   text-align: center;
 }
@@ -889,7 +889,7 @@ pre .javascript .function {
 .pagination .next,
 .pagination .page-number {
   border-bottom: 0;
-  border-top: 1px solid #483d8b;
+  border-top: 1px solid #f5f5dc;
   transition-property: border-color;
   transition-delay: 0s;
   transition-duration: 0.2s;
@@ -922,7 +922,7 @@ pre .javascript .function {
   .pagination .prev,
   .pagination .next,
   .pagination .page-number {
-    border-bottom: 1px solid #483d8b;
+    border-bottom: 1px solid #f5f5dc;
     border-top: 0;
     margin-bottom: 10px;
     padding: 0 10px;
@@ -1189,7 +1189,7 @@ pre .javascript .function {
   display: inline-block;
 }
 .site-author-image {
-  border: 1px solid #483d8b;
+  border: 1px solid #f5f5dc;
   display: block;
   margin: 0 auto;
   max-width: 120px;
@@ -1222,7 +1222,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #e8ffff;
+  background: #0affff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1405,7 +1405,7 @@ pre .javascript .function {
   padding: 0 15px;
 }
 .site-state-item:not(:first-child) {
-  border-left: 1px solid #483d8b;
+  border-left: 1px solid #f5f5dc;
 }
 .site-state-item a {
   border-bottom: none;
@@ -1907,7 +1907,7 @@ pre .javascript .function {
   }
 }
 .post-nav {
-  border-top: 1px solid #483d8b;
+  border-top: 1px solid #f5f5dc;
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
@@ -1971,7 +1971,7 @@ pre .javascript .function {
   margin-right: 10px;
 }
 .post-widgets {
-  border-top: 1px solid #483d8b;
+  border-top: 1px solid #f5f5dc;
   margin-top: 15px;
   text-align: center;
 }
@@ -2258,7 +2258,7 @@ ul.breadcrumb li + li:last-child {
   color: #222;
 }
 .search-popup .search-header {
-  background: #483d8b;
+  background: #f5f5dc;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   display: flex;
