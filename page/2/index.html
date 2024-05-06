@@ -27,27 +27,27 @@
   <meta name="description" content="Hi, you can call me neko! Hope to be friend with you :)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="NekoCyan&#39;s Blog">
-<meta property="og:url" content="https://ccchaosss.github.io/categories/%E5%85%AB%E8%82%A1/index.html">
+<meta property="og:url" content="https://ccchaosss.github.io/page/2/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
 <meta property="og:description" content="Hi, you can call me neko! Hope to be friend with you :)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="NekoCyan">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccchaosss.github.io/categories/%E5%85%AB%E8%82%A1/">
+<link rel="canonical" href="https://ccchaosss.github.io/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: 八股 | NekoCyan's Blog</title>
+  <title>NekoCyan's Blog</title>
   
 
 
@@ -192,52 +192,182 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/21/leetcode_04_21/">
 
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">八股
-          <small>分类</small>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/21/leetcode_04_21/" class="post-title-link" itemprop="url">背包问题</a>
         </h2>
-      </div>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-21 14:59:00" itemprop="dateCreated datePublished" datetime="2024-04-21T14:59:00+08:00">2024-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-25 19:48:54" itemprop="dateModified" datetime="2024-04-25T19:48:54+08:00">2024-04-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+          <h2 id="01背包理论基础"><a href="#01背包理论基础" class="headerlink" title="01背包理论基础"></a>01背包理论基础</h2><p><strong>问题</strong>：有n件物品和一个最多能背重量为w的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。</p>
+<p><strong>二维数组dp[i][j]表示</strong>，从下标为[0-i]的物品里任意取，放进容量为j的背包，<strong>价值的总和</strong>。<br>递推公式：</p>
+<script type="math/tex; mode=display">dp[i][j] = max(dp[i-1][j], dp[i][j-weight[i]]+value[i])</script>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/04/21/leetcode_04_21/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-04-22T09:53:31+08:00"
-              content="2024-04-22">
-          04-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/04/22/0422%E5%85%AB%E8%82%A1/" itemprop="url">
-            <span itemprop="name">0422八股</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/21/daily_2024_04_21/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="Hi, you can call me neko! Hope to be friend with you :)">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/21/daily_2024_04_21/" class="post-title-link" itemprop="url">0421日记</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-21 14:59:00" itemprop="dateCreated datePublished" datetime="2024-04-21T14:59:00+08:00">2024-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-23 21:49:24" itemprop="dateModified" datetime="2024-04-23T21:49:24+08:00">2024-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Daily/" itemprop="url" rel="index"><span itemprop="name">Daily</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="今日记录"><a href="#今日记录" class="headerlink" title="今日记录"></a>今日记录</h1><p>今天把博客整体框架搭好了，本来想昨天弄的，但是雨下得太大啦！懒得来实验室，在寝室睡大觉喽😃</p>
+<p>晚上在寝室看LOL春季赛决赛，BLG终于拿冠军了😿太不容易了，elk是fmvp！！开心呜呜呜，努力都会有回报的！ON和Elk的家人都来了，在各自家人的见证下拿冠军这和订婚有什么区别👍</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/04/21/daily_2024_04_21/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
-  </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
   
   
 
+
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 

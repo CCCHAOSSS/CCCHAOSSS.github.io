@@ -24,19 +24,21 @@
     var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="今日记录今天力扣刷了，八股背了，现在（⏲️21:52）在看elk直播哈哈哈哈哈哈哈哈哈哈！摸鱼摸鱼。 然后还看了一下下唱歌教程（?）打算五一有时间录个《one last kiss》 然后看了一下基于Redis实现分布式锁，具体内容晚点再整理一篇博客吧，现在有点累了 然后就是，今天晚上运动了！肚子好酸 (´,,•ω•,,‘) ~">
+  <meta name="description" content="Leetcode0506目标和力扣494.目标和  给你一个非负整数数组 nums 和一个整数 target 。向数组中的每个整数前添加 ‘+’ 或 ‘-‘ ，然后串联起所有整数，可以构造一个 表达式。 例如，nums &#x3D; [2, 1] ，可以在 2 之前添加 ‘+’ ，在 1 之前添加 ‘-‘ ，然后串联起来得到表达式 “+2-1” 。返回可以通过上述方法构造的、运算结果等于 target 的不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="daily_0423">
-<meta property="og:url" content="https://ccchaosss.github.io/2024/04/23/daily-0423/index.html">
+<meta property="og:title" content="0506_leetcode">
+<meta property="og:url" content="https://ccchaosss.github.io/2024/05/06/0506-leetcode/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
-<meta property="og:description" content="今日记录今天力扣刷了，八股背了，现在（⏲️21:52）在看elk直播哈哈哈哈哈哈哈哈哈哈！摸鱼摸鱼。 然后还看了一下下唱歌教程（?）打算五一有时间录个《one last kiss》 然后看了一下基于Redis实现分布式锁，具体内容晚点再整理一篇博客吧，现在有点累了 然后就是，今天晚上运动了！肚子好酸 (´,,•ω•,,‘) ~">
+<meta property="og:description" content="Leetcode0506目标和力扣494.目标和  给你一个非负整数数组 nums 和一个整数 target 。向数组中的每个整数前添加 ‘+’ 或 ‘-‘ ，然后串联起所有整数，可以构造一个 表达式。 例如，nums &#x3D; [2, 1] ，可以在 2 之前添加 ‘+’ ，在 1 之前添加 ‘-‘ ，然后串联起来得到表达式 “+2-1” 。返回可以通过上述方法构造的、运算结果等于 target 的不">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-23T13:50:45.000Z">
-<meta property="article:modified_time" content="2024-04-25T12:09:29.416Z">
+<meta property="article:published_time" content="2024-05-06T06:10:02.000Z">
+<meta property="article:modified_time" content="2024-05-06T12:05:33.588Z">
 <meta property="article:author" content="NekoCyan">
+<meta property="article:tag" content="动态规划">
+<meta property="article:tag" content="背包问题">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccchaosss.github.io/2024/04/23/daily-0423/">
+<link rel="canonical" href="https://ccchaosss.github.io/2024/05/06/0506-leetcode/">
 
 
 <script id="page-configurations">
@@ -49,7 +51,7 @@
   };
 </script>
 
-  <title>daily_0423 | NekoCyan's Blog</title>
+  <title>0506_leetcode | NekoCyan's Blog</title>
   
 
 
@@ -201,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/23/daily-0423/">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/06/0506-leetcode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -214,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          daily_0423
+          0506_leetcode
         </h1>
 
         <div class="post-meta">
@@ -225,23 +227,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2024-04-23 21:50:45" itemprop="dateCreated datePublished" datetime="2024-04-23T21:50:45+08:00">2024-04-23</time>
+              <time title="创建时间：2024-05-06 14:10:02 / 修改时间：20:05:33" itemprop="dateCreated datePublished" datetime="2024-05-06T14:10:02+08:00">2024-05-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-04-25 20:09:29" itemprop="dateModified" datetime="2024-04-25T20:09:29+08:00">2024-04-25</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Daily/" itemprop="url" rel="index"><span itemprop="name">Daily</span></a>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
                 </span>
             </span>
 
@@ -263,14 +259,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="今日记录"><a href="#今日记录" class="headerlink" title="今日记录"></a>今日记录</h1><p>今天力扣刷了，八股背了，现在（⏲️21:52）在看elk直播哈哈哈哈哈哈哈哈哈哈！摸鱼摸鱼。</p>
-<p>然后还看了一下下唱歌教程（?）打算五一有时间录个《<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1254y187SE/">one last kiss</a>》</p>
-<p>然后看了一下基于Redis实现分布式锁，具体内容晚点再整理一篇博客吧，现在有点累了</p>
-<p>然后就是，今天晚上运动了！肚子好酸 (´,,•ω•,,‘) ~<br><span id="more"></span></p>
-<p>今天午饭时候又和师兄再说去日本开会的事情了，居然要待10天！！羡慕死了呜呜呜，自己的论文，出了poster什么都没有留下QAQ牌子也没有，会议小蛋糕也没有，会议也去不了，此生唯一的参加自己论文学术会议的机会呜呜呜，为什么！为什么我不是富二代！这样我就直接自费去了，可恶啊！</p>
-<p>虽然IJCNN也是个水会吧，但是重点是出国啊出国！想去一趟日本呜呜呜</p>
-<p>然后看冰菓看到一句很收触动的话。。。暂且留个截图<br><img src= ../images/daily0423.png style="zoom:50%;"></p>
+        <h1 id="Leetcode0506"><a href="#Leetcode0506" class="headerlink" title="Leetcode0506"></a>Leetcode0506</h1><h2 id="目标和"><a href="#目标和" class="headerlink" title="目标和"></a>目标和</h2><p>力扣<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/target-sum/description/">494.目标和</a></p>
+<blockquote>
+<p>给你一个非负整数数组 nums 和一个整数 target 。<br>向数组中的每个整数前添加 ‘+’ 或 ‘-‘ ，然后串联起所有整数，可以构造一个 表达式。</p>
+<p>例如，nums = [2, 1] ，可以在 2 之前添加 ‘+’ ，在 1 之前添加 ‘-‘ ，然后串联起来得到表达式 “+2-1” 。<br>返回可以通过上述方法构造的、运算结果等于 target 的不同 表达式的数目。</p>
+</blockquote>
+<span id="more"></span>
+<p>其实一开始想的是用二维dp，但是写了不对哈哈哈哈哈（。）<br>然后看了题解，非常巧妙地要转换一下<strong>target</strong>。</p>
+<p>既然为target，那么就一定有 <strong>left组合</strong> - <strong>right组合</strong> = <strong>target</strong>, 而sum是固定的</p>
+<script type="math/tex; mode=display">
+left + right = sum\\
 
+right = sum - left\\
+
+left - (sum - left) = target\\
+
+left = (target + sum)/2</script><p>此外，dp[j]的含义是和为j共有dp[j]种方法，因此dp[0]要初始化为1。因为dp[0]是在公式中一切递推结果的起源，如果dp[0]是0的话，递推结果将都是0。<code>如果数组[0] ，target = 0，那么 bagSize = (target + sum) / 2 = 0。 dp[0]也应该是1， 也就是说给数组里的元素 0 前面无论放加法还是减法，都是 1 种方法。</code></p>
+<p><strong>所有求组合类问题的公式都类似：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[j] += dp[j - nums[i]]</span><br></pre></td></tr></table></figure></p>
+<p>以下是完整代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findTargetSumWays</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> num:nums)&#123;</span><br><span class="line">        sum += num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(target)&gt;sum)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>((target + sum)%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">bagSize</span> <span class="operator">=</span> (target + sum)/<span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[bagSize+<span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;nums.length; ++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=bagSize; j&gt;=nums[i]; --j)&#123;</span><br><span class="line">            dp[j] += dp[j-nums[i]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dp[bagSize];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="最后一块石头的重量Ⅱ"><a href="#最后一块石头的重量Ⅱ" class="headerlink" title="最后一块石头的重量Ⅱ"></a>最后一块石头的重量Ⅱ</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/last-stone-weight-ii/description/">1049.最后一块石头的重量Ⅱ</a></p>
+<p>有一堆石头，用整数数组 stones 表示。其中 stones[i] 表示第 i 块石头的重量。</p>
+<p>每一回合，从中选出任意两块石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x &lt;= y。那么粉碎的可能结果如下：</p>
+<ul>
+<li>如果 x == y，那么两块石头都会被完全粉碎；</li>
+<li>如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。</li>
+</ul>
+<p>最后，最多只会剩下一块石头。返回此石头 最小的可能重量 。如果没有石头剩下，就返回0.</p>
+<p>也是背包问题，其实就是尽量让石头分成重量相同的两堆，相撞之后剩下的石头最小。<br><strong>dp[j]表示容量（这里说容量更形象，其实就是重量）为j的背包，最多可以背最大重量为dp[j]。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lastStoneWeightII</span><span class="params">(<span class="type">int</span>[] stones)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> num:stones)&#123;</span><br><span class="line">        sum += num;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> sum/<span class="number">2</span>; <span class="comment">//向下取整，一定会更小</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> stones.length;</span><br><span class="line">    <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[target + <span class="number">1</span>];</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;len; ++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=target; j&gt;=stones[i]; --j)&#123;</span><br><span class="line">            dp[j] = Math.max(dp[j], dp[j-stones[i]]+stones[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">bigger</span> <span class="operator">=</span> sum - dp[target];</span><br><span class="line">    <span class="keyword">return</span> bigger - dp[target];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -278,6 +294,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+              <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" rel="tag"># 背包问题</a>
+          </div>
 
         
 
@@ -285,12 +305,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/04/23/0423Leetcode/" rel="prev" title="0423Leetcode">
-      <i class="fa fa-chevron-left"></i> 0423Leetcode
+    <a href="/2024/04/30/IEEEpaper/" rel="prev" title="IEEEpaper">
+      <i class="fa fa-chevron-left"></i> IEEEpaper
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/04/24/0424leetcode/" rel="next" title="0424leetcode">
-      0424leetcode <i class="fa fa-chevron-right"></i>
+    <a href="/2024/05/06/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-%E6%B5%8B%E5%BC%80/" rel="next" title="海康25暑期实习-测开">
+      海康25暑期实习-测开 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -350,7 +370,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">今日记录</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Leetcode0506"><span class="nav-number">1.</span> <span class="nav-text">Leetcode0506</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%92%8C"><span class="nav-number">1.1.</span> <span class="nav-text">目标和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E4%B8%80%E5%9D%97%E7%9F%B3%E5%A4%B4%E7%9A%84%E9%87%8D%E9%87%8F%E2%85%A1"><span class="nav-number">1.2.</span> <span class="nav-text">最后一块石头的重量Ⅱ</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
