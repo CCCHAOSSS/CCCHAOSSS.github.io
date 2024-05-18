@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<script type="text/javascript" src="/js/src/dytitle.js"></script>
+<head>
+    <!--pjax：防止跳转页面音乐暂停-->
+  <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script> 
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-neko.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16gl-N.png">
+  <link rel="mask-icon" href="/images/logo-N.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:ital/css?family=Ubuntu:ital:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="使用乐观锁—超卖问题在完全不考虑其他问题时候，整个业务流程是这样的：  查询优惠卷 判断秒杀是否开始 判断秒杀是否结束 判断优惠卷是否充足 扣减库存 创建订单 返回订单id  由于在该方法中涉及到扣减库存和创建订单，是对两个表进行写操作，要加上事务注解12345678910111213141516171819202122232425262728293031323334353637383940414">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【hmdp】秒杀超卖与一人一单问题">
+<meta property="og:url" content="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="NekoCyan&#39;s Blog">
+<meta property="og:description" content="使用乐观锁—超卖问题在完全不考虑其他问题时候，整个业务流程是这样的：  查询优惠卷 判断秒杀是否开始 判断秒杀是否结束 判断优惠卷是否充足 扣减库存 创建订单 返回订单id  由于在该方法中涉及到扣减库存和创建订单，是对两个表进行写操作，要加上事务注解12345678910111213141516171819202122232425262728293031323334353637383940414">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ccchaosss.github.io/images/%E7%A7%92%E6%9D%80%E9%97%AE%E9%A2%98%E5%9B%BE1.png">
+<meta property="og:image" content="https://ccchaosss.github.io/images/%E7%A7%92%E6%9D%80%E9%97%AE%E9%A2%98%E5%9B%BE1.png">
+<meta property="og:image" content="https://ccchaosss.github.io/images/%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%951.png">
+<meta property="og:image" content="https://ccchaosss.github.io/images/%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%952.png">
+<meta property="og:image" content="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/image.png">
+<meta property="og:image" content="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/image-1.png">
+<meta property="article:published_time" content="2024-05-18T02:22:50.000Z">
+<meta property="article:modified_time" content="2024-05-18T07:09:29.886Z">
+<meta property="article:author" content="NekoCyan">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="秒杀项目">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="乐观锁">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ccchaosss.github.io/images/%E7%A7%92%E6%9D%80%E9%97%AE%E9%A2%98%E5%9B%BE1.png">
+
+<link rel="canonical" href="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【hmdp】秒杀超卖与一人一单问题 | NekoCyan's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">NekoCyan's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">正在读万卷书，想要行万里路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a>
+
+  </li>
+        <li class="menu-item menu-item-neko的推荐">
+
+    <a href="/neko_re/" rel="section"><i class="fa fa-icons fa-fw"></i>neko的推荐</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="この世界は私を見る目であふれているが、私を見るあなたはただ一人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【hmdp】秒杀超卖与一人一单问题
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-18 10:22:50 / 修改时间：15:09:29" itemprop="dateCreated datePublished" datetime="2024-05-18T10:22:50+08:00">2024-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="【hmdp】秒杀超卖与一人一单问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="使用乐观锁—超卖问题"><a href="#使用乐观锁—超卖问题" class="headerlink" title="使用乐观锁—超卖问题"></a>使用乐观锁—超卖问题</h2><p>在完全不考虑其他问题时候，整个业务流程是这样的：</p>
+<ol>
+<li>查询优惠卷</li>
+<li>判断秒杀是否开始</li>
+<li>判断秒杀是否结束</li>
+<li>判断优惠卷是否充足</li>
+<li>扣减库存</li>
+<li>创建订单</li>
+<li>返回订单id</li>
+</ol>
+<p>由于在该方法中涉及到扣减库存和创建订单，是对两个表进行写操作，要加上事务注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//1.查询优惠卷</span></span><br><span class="line">        <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2.判断秒杀是否开始</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getBeginTime().isAfter(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀尚未开始&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3.判断秒杀是否结束</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getEndTime().isBefore(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已经结束&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//4.判断库存是否充足</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//5.扣减库存  </span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)    <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId)</span><br><span class="line">                .update();</span><br><span class="line">        <span class="keyword">if</span>(!success)&#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//6.创建订单</span></span><br><span class="line">        <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        voucherOrder.setId(orderId);</span><br><span class="line"></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">        voucherOrder.setUserId(userId);</span><br><span class="line"></span><br><span class="line">        voucherOrder.setVoucherId(voucherId);</span><br><span class="line">        save(voucherOrder);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//7.返回订单id</span></span><br><span class="line">        <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>使用jmter进行秒杀，200线程，单人，100张优惠卷。很明显会超卖，查看数据库此时库存为-9。<br><img src="/images/秒杀问题图1.png" alt="秒杀一"></p>
+<h2 id="使用CAS锁解决"><a href="#使用CAS锁解决" class="headerlink" title="使用CAS锁解决"></a>使用CAS锁解决</h2><p>操作简单，在执行库存扣减时候加乐观锁（比悲观锁并发度更高一点），即在扣减库存时候判断此时库存是否还大于0。这里的思想就是<strong>版本号</strong>，保证我现在修改的字段在我查询到目前这段时间内没有被修改（这里被修改也没事，只要还大于0就行）</p>
+<p>只需修改代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//5.扣减库存  使用CAS锁解决超卖（乐观锁）</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)    <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">//where id = ? and stock &gt; 0</span></span><br><span class="line">                .update();</span><br><span class="line">        <span class="keyword">if</span>(!success)&#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>再用jmeter进行压测，结果为：<br><img src="/images/秒杀问题图1.png" alt="图2"><br>异常为200%，说明刚刚好100个线程抢到了，100个没抢到。</p>
+<h2 id="使用synchronized-一人一单问题"><a href="#使用synchronized-一人一单问题" class="headerlink" title="使用synchronized  一人一单问题"></a>使用synchronized  一人一单问题</h2><p>基于上，在不考虑其他问题时，整个业务流程如下：</p>
+<ol>
+<li>查询优惠卷</li>
+<li>判断秒杀是否开始</li>
+<li>判断秒杀是否结束</li>
+<li>判断优惠卷库存是否充足</li>
+<li>判断当前用户是否已买过优惠卷</li>
+<li>扣减库存[已按上文加锁,保证正确扣减]</li>
+<li>创建订单</li>
+<li>返回订单id</li>
+</ol>
+<p>使用单个用户（请求头用的痛一个token）200个线程下单，数据库显示同一个user下了多个单。<br><img src="/images/一人一单1.png" alt="一人一单1"></p>
+<blockquote>
+<p>单个线程的<strong>先读后写</strong>要考虑原子性。</p>
+</blockquote>
+<p>使用<code>synchronized</code>对用户加锁（原本在service上加锁的(?)，但是给方法加锁就变成串行了）这里用户之间各不影响，只要保证同一用户不买两次，所以对用户加锁就行。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//1.查询优惠卷</span></span><br><span class="line">        <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2.判断秒杀是否开始</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getBeginTime().isAfter(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀尚未开始&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3.判断秒杀是否结束</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getEndTime().isBefore(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已经结束&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//4.判断库存是否充足</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//8.返回订单id</span></span><br><span class="line">        <span class="keyword">return</span> createVoucherOrder(voucherId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">        <span class="comment">//5.一人一单</span></span><br><span class="line">        <span class="comment">//5.1 查询订单</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">        <span class="keyword">synchronized</span> (userId.toString().intern())&#123;</span><br><span class="line">            <span class="comment">//5.2查询用户是否已经下过单</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">            <span class="keyword">if</span>(count &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> Result.fail(<span class="string">&quot;该用户已经购买过一次优惠券&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//6.扣减库存  使用CAS锁解决超卖（乐观锁）</span></span><br><span class="line">            <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                    .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)    <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                    .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">//where id = ? and stock &gt; 0</span></span><br><span class="line">                    .update();</span><br><span class="line">            <span class="keyword">if</span>(!success)&#123;</span><br><span class="line">                <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//7.创建订单</span></span><br><span class="line">            <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">            <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">            voucherOrder.setId(orderId);</span><br><span class="line"></span><br><span class="line">            voucherOrder.setUserId(userId);</span><br><span class="line"></span><br><span class="line">            voucherOrder.setVoucherId(voucherId);</span><br><span class="line">            save(voucherOrder);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>toString()要用userId.toString().intern()，确保用户id一样时锁要一样</p>
+</blockquote>
+<p>然而这样还是有问题，因为这段代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (userId.toString().intern())&#123;</span><br><span class="line">   .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在<code>public Result createVoucherOrder(Long voucherId)</code>方法内部，同一个用户一个线程进来了判断没下过单然后创建订单了还没提交，但是已经进行到createVoucherOrder内又已经释放了锁，另一个线程的该用户就又可以拿到锁进入该方法，在判断是否已下单处发现还没下单，就又创建一个订单了。对一个用户来说仍然多下单了。因此要<strong>先获取锁再进入<code>createVoucherOrder</code></strong>，方法完全结束后再释放锁，此时一定提交了任务。</p>
+<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//1.查询优惠卷</span></span><br><span class="line">        <span class="type">SeckillVoucher</span> <span class="variable">voucher</span> <span class="operator">=</span> seckillVoucherService.getById(voucherId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2.判断秒杀是否开始</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getBeginTime().isAfter(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀尚未开始&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3.判断秒杀是否结束</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getEndTime().isBefore(LocalDateTime.now())) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;秒杀已经结束&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//4.判断库存是否充足</span></span><br><span class="line">        <span class="keyword">if</span> (voucher.getStock() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line"></span><br><span class="line">         <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 锁加在这里</span></span><br><span class="line"><span class="comment">         * */</span></span><br><span class="line">        <span class="keyword">synchronized</span> (userId.toString().intern())&#123;</span><br><span class="line">            <span class="comment">//代理对象，能保证事务</span></span><br><span class="line">            <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">            <span class="comment">//8.返回订单id</span></span><br><span class="line">            <span class="keyword">return</span> proxy.createVoucherOrder(voucherId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">        <span class="comment">//5.一人一单</span></span><br><span class="line">        <span class="comment">//5.1 查询订单</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">            <span class="comment">//5.2查询用户是否已经下过单</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;该用户已经购买过一次优惠券&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//6.扣减库存  使用CAS锁解决超卖（乐观锁）</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)    <span class="comment">// set stock = stock - 1</span></span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">//where id = ? and stock &gt; 0</span></span><br><span class="line">                .update();</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//7.创建订单</span></span><br><span class="line">        <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIdWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        voucherOrder.setId(orderId);</span><br><span class="line"></span><br><span class="line">        voucherOrder.setUserId(userId);</span><br><span class="line"></span><br><span class="line">        voucherOrder.setVoucherId(voucherId);</span><br><span class="line">        save(voucherOrder);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>但是，这里涉及到一个spring事务失效的问题，上述代码中的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (userId.toString().intern())&#123;</span><br><span class="line">            <span class="comment">//代理对象，能保证事务</span></span><br><span class="line">            <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">            <span class="comment">//8.返回订单id</span></span><br><span class="line">            <span class="keyword">return</span> proxy.createVoucherOrder(voucherId);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure><br>就是为了解决这个问题[TODO:这里不会]</p>
+<p>最后结果，使用jemter一个用户200线程<br><img src="/images/一人一单2.png" alt="一人一单2"><br>只下了一单</p>
+<h2 id="集群模式下-一人一单问题"><a href="#集群模式下-一人一单问题" class="headerlink" title="集群模式下 一人一单问题"></a>集群模式下 一人一单问题</h2><p><code>synchronized</code>只能满足单体项目。因为是JVM级别的锁，锁监视器只能监视当前JVM中的锁，集群模式下有多个JVM。</p>
+<p>要用<strong>分布式锁</strong>。<br>基本业务流程如下：</p>
+<ol>
+<li>尝试获取锁（存入线程id）</li>
+<li>判断获取结果</li>
+<li>获取成功则执行业务逻辑<ol>
+<li>业务超时或服务器宕机则释放锁</li>
+</ol>
+</li>
+<li>执行完毕释放锁</li>
+</ol>
+<p>基本实现如下（在上述代码上修改）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">        * 锁加在这里</span></span><br><span class="line"><span class="comment">        * */</span></span><br><span class="line">       <span class="comment">//创建锁对象，获取锁</span></span><br><span class="line">       <span class="type">SimpleRedisLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleRedisLock</span>(<span class="string">&quot;order:&quot;</span> + userId, stringRedisTemplate);</span><br><span class="line"></span><br><span class="line">       <span class="type">boolean</span> <span class="variable">isLock</span> <span class="operator">=</span> lock.tryLock(<span class="number">10L</span>);</span><br><span class="line">       <span class="keyword">if</span> (!isLock)&#123;</span><br><span class="line">           <span class="comment">//获取锁失败，返回错误</span></span><br><span class="line">           <span class="keyword">return</span> Result.fail(<span class="string">&quot;不允许重复下单&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//获取代理对象，确保事务生效</span></span><br><span class="line">           <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">           <span class="comment">//8.返回订单id</span></span><br><span class="line">           <span class="keyword">return</span> proxy.createVoucherOrder(voucherId);</span><br><span class="line">       &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="comment">//释放锁</span></span><br><span class="line">           lock.unLock();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="但是会发生误删锁的问题（对同一个用户来说）："><a href="#但是会发生误删锁的问题（对同一个用户来说）：" class="headerlink" title="但是会发生误删锁的问题（对同一个用户来说）："></a>但是会发生误删锁的问题（对同一个用户来说）：</h3><p><code>&quot;order:&quot; + userId</code><br><img src="image.png" alt="alt text"></p>
+<p>流程如下：</p>
+<ol>
+<li>尝试获取锁（存入线程id）</li>
+<li>判断获取结果</li>
+<li>获取成功则执行业务逻辑<ol>
+<li>业务超时或服务器宕机则释放锁</li>
+</ol>
+</li>
+<li>业务执行完毕</li>
+<li>获取锁的线程标识</li>
+<li>判断是否与指定标识（当前线程）相同</li>
+<li>一致则释放</li>
+</ol>
+<h3 id="继续优化"><a href="#继续优化" class="headerlink" title="继续优化"></a>继续优化</h3><p><img src="image-1.png" alt="alt text"><br>就是线程1在即将释放锁的时候【这个时候是<strong>已经经过判断锁</strong>是否是自己的】发生了阻塞，然后超时了，锁自己释放掉了。<br>另一个线程2进来后获取到了锁，然后线程1阻塞完了释放锁，就会把线程2的锁放掉【都是针对同一个用户而言】。</p>
+<p><strong>产生的原因：判断锁标识和释放锁的动作不是原子性操作。</strong><br>因此用Redis的Lua脚本实现原子性操作。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 比较线程标识与锁中的标识是否一致</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(redis.call(<span class="string">&quot;get&quot;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>]) <span class="keyword">then</span></span><br><span class="line">    <span class="comment">--释放锁</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&quot;del&quot;</span>,KEYS[<span class="number">1</span>])<span class="comment">--</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>然后在锁实现类里面：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先注入文件，用static，这样类一加载就有了，不需要每次调用时候频繁创建</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> DefaultRedisScript&lt;Long&gt; UNLOKC_SCRIPT;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        UNLOKC_SCRIPT = <span class="keyword">new</span> <span class="title class_">DefaultRedisScript</span>&lt;&gt;();</span><br><span class="line">        UNLOKC_SCRIPT.setLocation(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;unlock.lua&quot;</span>));</span><br><span class="line">        UNLOKC_SCRIPT.setResultType(Long.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 基于Lua脚本释放锁</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unLock</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//调用Lua脚本</span></span><br><span class="line">        stringRedisTemplate.execute(</span><br><span class="line">                UNLOKC_SCRIPT,</span><br><span class="line">                Collections.singletonList(KEY_PREFIX + name),</span><br><span class="line">                ID_PREFIX + Thread.currentThread().getId());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="再优化"><a href="#再优化" class="headerlink" title="再优化"></a>再优化</h3><p>以上的分布式锁（用redis的setnx）是<strong>不可重入</strong>的，会出现死锁情况。同时，这个锁是<strong>不可重试</strong>的。集群中主从节点要考虑<strong>主从一致性</strong>问题。</p>
+<p>使用Redisson的可重入锁:</p>
+<blockquote>
+<ul>
+<li><strong>可重入</strong>：利用hash结构记录线程id和重入次数</li>
+<li><strong>可重试</strong>：利用信号量和PubSub功能实现等待、唤醒，获取锁失败的重试机制</li>
+<li><strong>超时续约</strong>：利用watchDog，每隔一段时间（releaseTime/3），重置超时时间。</li>
+</ul>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>不可重入Redis分布式锁：<ul>
+<li>原理：利用setnx互斥性；利用ex避免死锁；释放锁时判断线程标识</li>
+<li>缺陷：不可重入，无法重试、锁超时失效</li>
+</ul>
+</li>
+<li>可重入的Redis分布式锁<ul>
+<li>原理：（Redisson）利用hash结构，记录线程重入次数；利用watchDog延续锁时间；利用信号量控制锁重试等待。</li>
+<li>缺陷：redis宕机引起锁失效问题</li>
+</ul>
+</li>
+<li>Redisson的MultiLock：<ul>
+<li>原理：多个独立的Redis节点，必须在所有节点都获取重入锁，才算获取锁成功。==》最安全的一种。</li>
+<li>缺陷：运维成本高，实现复杂</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+              <a href="/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/" rel="tag"># 秒杀项目</a>
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+              <a href="/tags/%E4%B9%90%E8%A7%82%E9%94%81/" rel="tag"># 乐观锁</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/16/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/" rel="prev" title="如何设计一个秒杀系统">
+      <i class="fa fa-chevron-left"></i> 如何设计一个秒杀系统
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7/" rel="next" title="【hmdp】缓存一致性">
+      【hmdp】缓存一致性 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%B9%90%E8%A7%82%E9%94%81%E2%80%94%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">使用乐观锁—超卖问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CAS%E9%94%81%E8%A7%A3%E5%86%B3"><span class="nav-number">2.</span> <span class="nav-text">使用CAS锁解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8synchronized-%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">使用synchronized  一人一单问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B-%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">集群模式下 一人一单问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%86%E6%98%AF%E4%BC%9A%E5%8F%91%E7%94%9F%E8%AF%AF%E5%88%A0%E9%94%81%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88%E5%AF%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%9D%A5%E8%AF%B4%EF%BC%89%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">但是会发生误删锁的问题（对同一个用户来说）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.</span> <span class="nav-text">继续优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%8D%E4%BC%98%E5%8C%96"><span class="nav-number">4.3.</span> <span class="nav-text">再优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="NekoCyan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">NekoCyan</p>
+  <div class="site-description" itemprop="description">この世界は私を見る目であふれているが、私を見るあなたはただ一人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CCCHAOSSS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CCCHAOSSS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lmliang11@foxmail.com" title="Email → mailto:lmliang11@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Email</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/10844960" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;10844960" rel="noopener" target="_blank"><i class="fa fa-tv fa-fw"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=560077164" title="NetEase → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;560077164" rel="noopener" target="_blank"><i class="fa fa-headphones fa-fw"></i>NetEase</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <!-- require APlayer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <!-- require MetingJS-->
+    <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> 
+	<!--网易云-->   
+    <div class="aplayer" 
+      data-id="9925058057" 
+      data-server="netease" 
+      data-type="playlist" 
+      data-fixed="false" 
+      data-autoplay="false" 
+      data-list-folded="true"
+      data-mutex="true"
+      data-order="list" 
+      data-loop="all"
+      data-volume="0.3" 
+      data-theme="#BCD2EE" 
+      date-preload="auto" >
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NekoCyan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="[object Object]"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'X0nPzFjJu09btH1SzQTulEUS-gzGzoHsz',
+      appKey     : 'olSo4KlKs6SLAaW6gkCeiJSs',
+      placeholder: "(*′▽`)来评论吧!什么都可以! ~",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+
+</body>
+</html>
