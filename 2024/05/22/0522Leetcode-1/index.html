@@ -33,7 +33,7 @@
 <meta property="og:description" content="和为k的子数组560暴力法秒了（bushi），时间复杂度O(n*n)123456789101112131415161718class Solution &#123;    public int subarraySum(int[] nums, int k) &#123;        int count &#x3D; 0;        for(int left&#x3D;0; left&lt;nums.length;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-05-22T11:40:32.000Z">
-<meta property="article:modified_time" content="2024-05-22T12:36:21.802Z">
+<meta property="article:modified_time" content="2024-05-23T00:54:06.599Z">
 <meta property="article:author" content="NekoCyan">
 <meta property="article:tag" content="子串">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">33</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">36</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">26</span></a>
 
   </li>
         <li class="menu-item menu-item-neko的推荐">
@@ -204,10 +204,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-05-22 19:40:32 / 修改时间：20:36:21" itemprop="dateCreated datePublished" datetime="2024-05-22T19:40:32+08:00">2024-05-22</time>
+              <time title="创建时间：2024-05-22 19:40:32" itemprop="dateCreated datePublished" datetime="2024-05-22T19:40:32+08:00">2024-05-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-23 08:54:06" itemprop="dateModified" datetime="2024-05-23T08:54:06+08:00">2024-05-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -262,6 +268,10 @@
 <p><strong>TODO</strong></p>
 </blockquote>
 <h2 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h2><p>又是暴力秒了，但是超时（。）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] maxSlidingWindow(<span class="type">int</span>[] nums, <span class="type">int</span> k) &#123;</span><br><span class="line">        <span class="comment">// List&lt;Integer&gt; res = new ArrayList&lt;&gt;();</span></span><br><span class="line">        <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="title class_">int</span>[nums.length-k+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> left=<span class="number">0</span>; left&lt;nums.length-k+<span class="number">1</span>; ++left)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">maxNum</span> <span class="operator">=</span> nums[left];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> right=left; right&lt;left+k &amp;&amp; right&lt;nums.length; ++right)&#123;</span><br><span class="line">                <span class="keyword">if</span>(maxNum &lt; nums[right])&#123;</span><br><span class="line">                    maxNum = nums[right];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res[left] = maxNum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>让我来看看标准解法👀:使用<strong>优先队列</strong>或<strong>单调队列</strong>。</p>
+<blockquote>
+<p>优先队列（堆），大根堆、小根堆（有点忘了==基础不牢是这样的）</p>
+</blockquote>
+<p>但是没看懂，大寄特寄了qaq</p>
 
     </div>
 
@@ -362,7 +372,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -375,7 +385,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
