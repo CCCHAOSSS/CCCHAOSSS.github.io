@@ -312,10 +312,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-05-23 09:06:56 / 修改时间：20:41:26" itemprop="dateCreated datePublished" datetime="2024-05-23T09:06:56+08:00">2024-05-23</time>
+              <time title="创建时间：2024-05-23 09:06:56" itemprop="dateCreated datePublished" datetime="2024-05-23T09:06:56+08:00">2024-05-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-24 08:30:34" itemprop="dateModified" datetime="2024-05-24T08:30:34+08:00">2024-05-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -361,63 +367,15 @@
           <h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>桶排序从整体来看也是一个非比较排序，是计数排序的升级版，其主要是先把序列中的数据划分为一个个的范围，每个范围相当一个桶，将数据放入桶中，每个桶分别进行排序，然后取出拼接即可。计数排序不适用于序列中max-min范围较广或者序列中的数据不是整数的情况，<strong>但是桶排序没有这些限制，其主要步骤是将数据放入桶中，桶中的数据自己排序</strong>。</p>
 <h2 id="我的项目整理"><a href="#我的项目整理" class="headerlink" title="我的项目整理"></a>我的项目整理</h2><h3 id="1-你是如何利用-Redisson-实现分布式锁来保证秒杀功能的正确性的？"><a href="#1-你是如何利用-Redisson-实现分布式锁来保证秒杀功能的正确性的？" class="headerlink" title="1. 你是如何利用 Redisson 实现分布式锁来保证秒杀功能的正确性的？"></a><strong>1. 你是如何利用 Redisson 实现分布式锁来保证秒杀功能的正确性的？</strong></h3><ul>
 <li>在单体模式下，对当前发起请求的userID加synchronized关键字，这里要注意的一点是对userID进行toString操作后的结果加上关键字。然后进入业务逻辑，注意在<strong>减库存的service方法上加@Transactional注解</strong>。</li>
-<li>集群模式下这个方法不行，因为这个同步锁（synchronized）是jvm级别的，在分布式部署后，每台服务器在并发环境下能锁住一个线程。于是使用Redisson。基于Lua脚本，首先判断优惠卷库存是否充足，是则判断用户是否下单，否则<strong>扣减优惠卷库存</strong>，并将当前UerId存入当前优惠卷的set集合。<strong>扣减优惠卷库存</strong>部分，也是基于Lua脚本【判断优惠卷是否还有库存，是则将优惠卷id、用户id和订单id存入消息队列，返回订单id】消息队列实现异步下单。</li>
-</ul>
-<ol>
-<li>对于异步秒杀优化，你是如何使用 RabbitMQ 实现异步下单功能的？</li>
-<li>你在项目中遇到的主要挑战是什么，以及你是如何解决它们的？</li>
-</ol>
-<h3 id="2-如何使用Redis解决集群模式下的Session共享问题的"><a href="#2-如何使用Redis解决集群模式下的Session共享问题的" class="headerlink" title="2. 如何使用Redis解决集群模式下的Session共享问题的"></a>2. <strong>如何使用Redis解决集群模式下的Session共享问题的</strong></h3><p>在用户登录： 验证手机号、校验验证码（前端提交过来的用户的输入）。</p>
-<ul>
-<li>【手机号key：验证码value】</li>
-</ul>
-<p>若手机号不存在则创建用户并将用户信息保存到redis中。即如下所说：</p>
-<p>通过验证后，将用户的session信息<strong>序列化</strong>后存在redis中并设置有效期（即多久过期），所有应用节点共享同一个redis实例，这样无论请求落在哪个节点都可以从redis中获得用户的session信息。以后的请求都在请求头中携带token。</p>
-<ul>
-<li>【token_key : user序列化信息】</li>
-</ul>
-<p>++++++通过拦截器拦截请求，提取用户信息保存在ThreadLocal中(方便后续用ThreadLocal获取)，并刷新redis中token有效期++++++</p>
-<blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//5.存在，保存用户信息到ThreadLocal-----&gt;这里UserHolder自己写的，里面会调用ThreadLocal等</span><br><span class="line">UserHolder.saveUser(userDTO);</span><br><span class="line"></span><br><span class="line">//6.刷新token有效期</span><br><span class="line">stringRedisTemplate.expire(key, RedisConstants.LOGIN_USER_TTL, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="3-在查找店铺功能中，如何使用Redis解决缓存穿透问题"><a href="#3-在查找店铺功能中，如何使用Redis解决缓存穿透问题" class="headerlink" title="3. 在查找店铺功能中，如何使用Redis解决缓存穿透问题"></a>3. 在查找店铺功能中，如何使用Redis解决缓存穿透问题</h3><p><strong>首先</strong>，缓存三大问题：缓存穿透、缓存击穿、缓存雪崩。缓存穿透是指一直查询了（<strong>同一个？</strong>）缓存和数据库中都不存在的记录，因为在数据库中不存在，所以每次查询都不会有记录写入缓存，也就导致每次查询都会落到数据库上，给数据库带来压力。</p>
-<p><strong>要解决这个问题一般两个方法：缓存空值和布隆过滤器。</strong></p>
-<p>先说一下我用的是缓存空值。在查询一条记录时候，先看redis中有没有，没有再去查数据库。然后判断数据库查询的返回结果是否为<strong>null</strong>。如果是有记录的就把对应记录写入redis。<strong>如果是null，则把这条查询的条件作为key存入redis，对应value为“ ”（空字符串），</strong>下次再来的时候会命中redis这个记录，<strong>所以这里多一个判断命中的内容是否是空值的判断</strong>，是则返回null。</p>
-<blockquote>
-<p>这里判断是否存在用<strong>isNotBlank</strong>，这个函数只有当真正有内容才会返回true（然后返回redis中命中的内容），空字符串和null都会返回false</p>
-</blockquote>
-<p>再说一下布隆过滤器原理，布隆过滤器一般由一个数组和哈希函数组成。当要存一个东西时候，先用哈希函数进行运算，得到一个索引，将布隆过滤器中这些索引的位置设为1。然后当下一次查询过来时候可以先在用布隆过滤器检查它是否存在，根据得到的索引，看它在布隆过滤器中是否都为1。如果不是全为1那一定不存在，全为1再去查数据库等，虽然全为1也不一定会在数据库中存在，但是这是允许少量的错误的。<strong>布隆过滤器可以显著提升查询效率和节省存储空间。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个布隆过滤器的实现例子</span></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"><span class="keyword">import</span> java.util.BitSet;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.function.Function;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BloomFilter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BitSet bitSet;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> bitSetSize;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> numberOfHashFunctions;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> List&lt;Function&lt;T, Integer&gt;&gt; hashFunctions;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BloomFilter</span><span class="params">(<span class="type">int</span> bitSetSize, List&lt;Function&lt;T, Integer&gt;&gt; hashFunctions)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bitSetSize = bitSetSize;</span><br><span class="line">        <span class="built_in">this</span>.bitSet = <span class="keyword">new</span> <span class="title class_">BitSet</span>(bitSetSize);</span><br><span class="line">        <span class="built_in">this</span>.numberOfHashFunctions = hashFunctions.size();</span><br><span class="line">        <span class="built_in">this</span>.hashFunctions = hashFunctions;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(T element)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (Function&lt;T, Integer&gt; hashFunction : hashFunctions) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> hashFunction.apply(element) % bitSetSize;</span><br><span class="line">            bitSet.set(Math.abs(hash));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">mightContain</span><span class="params">(T element)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (Function&lt;T, Integer&gt; hashFunction : hashFunctions) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> hashFunction.apply(element) % bitSetSize;</span><br><span class="line">            <span class="keyword">if</span> (!bitSet.get(Math.abs(hash))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;Function&lt;String, Integer&gt;&gt; hashFunctions = List.of(</span><br><span class="line">                s -&gt; s.hashCode(),</span><br><span class="line">                s -&gt; s.getBytes(StandardCharsets.UTF_8).hashCode()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        BloomFilter&lt;String&gt; bloomFilter = <span class="keyword">new</span> <span class="title class_">BloomFilter</span>&lt;&gt;(<span class="number">1000</span>, hashFunctions);</span><br><span class="line"></span><br><span class="line">        bloomFilter.add(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        bloomFilter.add(<span class="string">&quot;world&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(bloomFilter.mightContain(<span class="string">&quot;hello&quot;</span>)); <span class="comment">// true</span></span><br><span class="line">        System.out.println(bloomFilter.mightContain(<span class="string">&quot;world&quot;</span>)); <span class="comment">// true</span></span><br><span class="line">        System.out.println(bloomFilter.mightContain(<span class="string">&quot;java&quot;</span>));  <span class="comment">// false (but could be true)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="4-说一下互斥锁解决缓存击穿"><a href="#4-说一下互斥锁解决缓存击穿" class="headerlink" title="4. 说一下互斥锁解决缓存击穿"></a>4. 说一下互斥锁解决缓存击穿</h3><p>这是基于redis的<strong>SETNX</strong> 互斥锁实现的。往redis中存入一个键值对，如果key不存在则成功存入，否则失败。</p>
-<blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取锁</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(String key)</span>&#123;</span><br><span class="line">        <span class="type">Boolean</span> <span class="variable">flag</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().setIfAbsent(key, <span class="string">&quot;1&quot;</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">        <span class="keyword">return</span> BooleanUtil.isTrue(flag);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 释放锁</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">unLock</span><span class="params">(String key)</span>&#123;</span><br><span class="line">        stringRedisTemplate.delete(key);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>缓存击穿是对于一个热点数据，其缓存过期（失效后）大量的请求会打到数据库中，造成数据库宕机等。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=缓存击穿&amp;usm=1&amp;ie=utf-8&amp;rsv_pq=ecbc230400123d01&amp;oq=缓存击穿&amp;rsv_t=8c23y%2BM%2BAaFNdgelINZcdxsEaD5ps9EmDObggeHRBTVErGjm4CNzDCdOuB8&amp;sa=re_dqa_zy&amp;icon=1">缓存击穿</a>是指当缓存中的热点数据过期或意外失效时，大量<strong>并发请求</strong>同时访问该数据，因为缓存未命中，所有这些请求都会直接打到数据库中去查询数据，导致数据库压力过大，甚至崩溃。</p>
-</blockquote>
-<p>用互斥锁就是在对并发请求，若查询redis未命中，就要去申请该查询对象的锁，获得后才能继续进行数据库查询，并且查完后会进行缓存重建，然后释放锁。</p>
-<h3 id="5-在优惠券秒杀业务中，如何使用Redis和Lua脚本解决超卖问题？"><a href="#5-在优惠券秒杀业务中，如何使用Redis和Lua脚本解决超卖问题？" class="headerlink" title="5. 在优惠券秒杀业务中，如何使用Redis和Lua脚本解决超卖问题？"></a>5. <strong>在优惠券秒杀业务中，如何使用Redis和Lua脚本解决超卖问题？</strong></h3><p>在优惠券秒杀业务中，使用 Redis + Lua脚本实现对用户秒杀资格的预检，同时用<strong>乐观锁</strong>解决秒杀产生的超卖问题。集群模式下， 基于Redis分布式锁解决一人一单的线程安全问题。</p>
-<p><strong>秒杀业务</strong>：多线程下优惠券库存要正确、下单一人只能一单、高并发下要高可用。</p>
-<ul>
-<li><p>优惠卷库存正确扣减<strong>：（</strong>最开始<strong>）使用乐观锁CAS版本号思想，因为在秒杀优惠卷时候，需要先判断库存够不够，足够才下单，这里的两个动作是非原子的，会有线程安全问题。在每个线程进行优惠卷扣减时候要判断此时的优惠卷是否还够</strong>，用Lua脚本保证这两个动作是原子的。<strong>Lua脚本中的动作：判断库存是否充足、然后条件都满足就下单（扣减库存并将订单信息存入redis）</strong></p>
-</li>
-<li><p>在上述基础上，（集群模式下）一人一单问题，一开始是使用<strong>synchronized关键字</strong>对用户加锁，<strong>先获取锁再进入<code>createVoucherOrder</code></strong>方法（生成优惠卷订单方法）完全结束后再释放锁，此时一定提交了任务，单体模式下可以的。但是集群模式下就不行了，因为<strong>synchronized</strong>是JVM级别的锁，集群模式下有多个JVM，因此要用分布式锁。并且为了避免锁因为业务超时等问题被其他线程（同一个用户的其他线程）释放掉，在获取锁时候要将当前线程id存入锁中，在释放时候看当前是否与指定标识相同，相同才释放。</p>
-<ul>
-<li><strong>这里用redisson提供的可重入锁。setnx不可重入。</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="6-在秒杀场景中，如何使用Redis的Stream结构作为消息队列来优化下单流程？"><a href="#6-在秒杀场景中，如何使用Redis的Stream结构作为消息队列来优化下单流程？" class="headerlink" title="6. 在秒杀场景中，如何使用Redis的Stream结构作为消息队列来优化下单流程？"></a>6. <strong>在秒杀场景中，如何使用Redis的Stream结构作为消息队列来优化下单流程？</strong></h3><p><strong>TODO</strong></p>
-<p>具体方法是：当用户发起秒杀请求时，将请求信息（如用户ID、商品ID等）写入Redis Stream中，然后由后台的消费者线程异步读取Stream中的消息并处理实际的下单逻辑。这种方式可以将秒杀请求的处理从前端分离出来，降低前端请求的响应时间，并提高系统的吞吐量。</p>
-<h3 id="7-你是如何利用Redis的ZSet和Set数据结构实现点赞排行榜和关注功能的"><a href="#7-你是如何利用Redis的ZSet和Set数据结构实现点赞排行榜和关注功能的" class="headerlink" title="7. 你是如何利用Redis的ZSet和Set数据结构实现点赞排行榜和关注功能的"></a>7. <strong>你是如何利用Redis的ZSet和Set数据结构实现点赞排行榜和关注功能的</strong></h3><p><strong>ZSet（有序集合）是redis中一种有序的数据结构</strong>，通过Zset的排序特性可以方便地实现排行榜功能。根据博客字段标示用户是否被点赞，然后用Set集合判断是否点赞过（因为set不能有重复元素的），<strong>用SortedSet</strong>，可以根据score值排序，</p>
-<p><strong>好友关注和共同关注</strong>：在关注某位用户之后，将<strong>被关注的用户id存入到Redis中</strong>。查看共同关注的时候，只需要求被查看的这位用户与自己关注列表的<strong>交集</strong>即可，用SINTER命令求交集</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2.求交集</span></span><br><span class="line">    Set&lt;String&gt; intersect = stringRedisTemplate.opsForSet().intersect(key1, key2);</span><br><span class="line">    <span class="keyword">if</span>(intersect==<span class="literal">null</span>||intersect.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">return</span> Result.ok(Collections.emptyList());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="补充redis知识"><a href="#补充redis知识" class="headerlink" title="补充redis知识"></a>补充redis知识</h2><p>redis中所有key都是字符串，但value类型是有差异的。</p>
-<h3 id="1-ZSet"><a href="#1-ZSet" class="headerlink" title="1. ZSet"></a>1. ZSet</h3><p>zset是一个有序且唯一的集合，zset中的member同时引入了一个属性score（分数）并默认按照分数进行升序排序。</p>
-<p><img src="https://img-blog.csdnimg.cn/ec950a2c287346f1bf53a64890db1edb.png" alt="img" style="zoom:80%;" /></p>
-<h4 id="zadd-zrange（添加-查询）"><a href="#zadd-zrange（添加-查询）" class="headerlink" title="zadd / zrange（添加 / 查询）"></a>zadd / zrange（添加 / 查询）</h4><p>使用 zadd 往有序集合中，添加元素和分数。<strong>时间复杂度是 O(log N)</strong>，这是由于 zset 是有序结构，新增元素需要放在合适的位置上，底层是通过 <strong>跳表</strong> 这个数据结构实现，</p>
-
+<li>集群模式下这个方法不行，因为这个同步锁（synchronized）是jvm级别的，在分布式部署后，每台服务器在并发环境下能锁住一个线程。于是使用Redisson。基于Lua脚本，首先判断优惠卷库存是否充足，是则判断用户是否下单，否则<strong>扣减优惠卷库存</strong>，并将当前UerId存入当前优惠卷的set集合。<strong>扣减优惠卷库存</strong>部分，也是基于Lua脚本【判断优惠卷是否还有库存，是则将优惠卷id、用户id和订单id存入消息队列，返回订单id】消息队列实现异步下单。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/05/23/%E4%BB%8A%E6%97%A5%E5%88%B7%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
