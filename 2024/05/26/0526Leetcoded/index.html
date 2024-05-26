@@ -25,22 +25,22 @@
     var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="八股0422_JVM_GC虽然不想背但是实验室突然断网了，只能背背喽">
+  <meta name="description" content="解密数字 现有一串神秘的密文 ciphertext，经调查，密文的特点和规则如下：密文由非负整数组成数字 0-25 分别对应字母 a-z。请根据上述规则将密文 ciphertext 解密为字母，并返回共有多少种解密结果。LCR165  说实话这个题看了一点时间才看懂示例6种怎么来的。。。&#x3D;。&#x3D;第一直觉是滑动窗口，但是好像，搞不出来">
 <meta property="og:type" content="article">
-<meta property="og:title" content="0422八股">
-<meta property="og:url" content="https://ccchaosss.github.io/2024/04/22/0422%E5%85%AB%E8%82%A1/index.html">
+<meta property="og:title" content="0526Leetcoded">
+<meta property="og:url" content="https://ccchaosss.github.io/2024/05/26/0526Leetcoded/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
-<meta property="og:description" content="八股0422_JVM_GC虽然不想背但是实验室突然断网了，只能背背喽">
+<meta property="og:description" content="解密数字 现有一串神秘的密文 ciphertext，经调查，密文的特点和规则如下：密文由非负整数组成数字 0-25 分别对应字母 a-z。请根据上述规则将密文 ciphertext 解密为字母，并返回共有多少种解密结果。LCR165  说实话这个题看了一点时间才看懂示例6种怎么来的。。。&#x3D;。&#x3D;第一直觉是滑动窗口，但是好像，搞不出来">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-22T01:53:31.000Z">
-<meta property="article:modified_time" content="2024-05-18T07:56:38.300Z">
+<meta property="article:published_time" content="2024-05-26T02:33:50.000Z">
+<meta property="article:modified_time" content="2024-05-26T06:17:39.459Z">
 <meta property="article:author" content="NekoCyan">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="JVM">
-<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="链表">
+<meta property="article:tag" content="剑指offer">
+<meta property="article:tag" content="二叉树">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccchaosss.github.io/2024/04/22/0422%E5%85%AB%E8%82%A1/">
+<link rel="canonical" href="https://ccchaosss.github.io/2024/05/26/0526Leetcoded/">
 
 
 <script id="page-configurations">
@@ -53,7 +53,7 @@
   };
 </script>
 
-  <title>0422八股 | NekoCyan's Blog</title>
+  <title>0526Leetcoded | NekoCyan's Blog</title>
   
 
 
@@ -182,7 +182,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/04/22/0422%E5%85%AB%E8%82%A1/">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/26/0526Leetcoded/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -195,7 +195,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          0422八股
+          0526Leetcoded
         </h1>
 
         <div class="post-meta">
@@ -206,28 +206,22 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2024-04-22 09:53:31" itemprop="dateCreated datePublished" datetime="2024-04-22T09:53:31+08:00">2024-04-22</time>
+              <time title="创建时间：2024-05-26 10:33:50 / 修改时间：14:17:39" itemprop="dateCreated datePublished" datetime="2024-05-26T10:33:50+08:00">2024-05-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-05-18 15:56:38" itemprop="dateModified" datetime="2024-05-18T15:56:38+08:00">2024-05-18</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">Java八股</span></a>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
                 </span>
             </span>
 
           
-            <span id="/2024/04/22/0422%E5%85%AB%E8%82%A1/" class="post-meta-item leancloud_visitors" data-flag-title="0422八股" title="阅读次数">
+            <span id="/2024/05/26/0526Leetcoded/" class="post-meta-item leancloud_visitors" data-flag-title="0526Leetcoded" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -249,8 +243,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2024/04/22/0422%E5%85%AB%E8%82%A1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2024/04/22/0422%E5%85%AB%E8%82%A1/" itemprop="commentCount"></span>
+    <a title="valine" href="/2024/05/26/0526Leetcoded/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/26/0526Leetcoded/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -265,75 +259,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="八股0422-JVM-GC"><a href="#八股0422-JVM-GC" class="headerlink" title="八股0422_JVM_GC"></a>八股0422_JVM_GC</h1><p>虽然不想背但是实验室突然断网了，只能背背喽<br><span id="more"></span></p>
-<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><p>线程私有：</p>
-<ul>
-<li>程序计数器</li>
-<li>本地方法栈</li>
-<li>java虚拟机栈</li>
-</ul>
-<p>线程共享：</p>
-<ul>
-<li>堆（存放对象，分为新生代和老年代）</li>
-<li>方法区</li>
-</ul>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
-<li>程序计数器：和程序运行到哪里有关</li>
-<li>本地方法栈（C栈），栈帧</li>
-<li><p>虚拟机栈，运行速度快（仅次于程序计数器）</p>
-</li>
-<li><p>堆，整个JVM只有一个，垃圾回收的主要场所</p>
-<blockquote>
-<p>对象分配时候在堆中新生代Eden区（还有survivor0和survivor1）</p>
+        <h2 id="解密数字"><a href="#解密数字" class="headerlink" title="解密数字"></a>解密数字</h2><blockquote>
+<p>现有一串神秘的密文 ciphertext，经调查，密文的特点和规则如下：密文由非负整数组成<br>数字 0-25 分别对应字母 a-z。请根据上述规则将密文 ciphertext 解密为字母，并返回共有多少种解密结果。<br><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/description/">LCR165</a></p>
 </blockquote>
-</li>
-<li>方法区，堆发逻辑部分，线程共享。存放已经背虚拟机加载的类信息、常量、静态变量、即时编译后代码</li>
-</ol>
-<h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><p>对象优先在新生代的Eden区，大对象（Eden放不下）直接进入老年代。</p>
-<p>长期存活对象（GC存活次数）进入老年代。</p>
-<h2 id="垃圾回收策略与算法"><a href="#垃圾回收策略与算法" class="headerlink" title="垃圾回收策略与算法"></a>垃圾回收策略与算法</h2><h3 id="Minor-GC与Full-GC"><a href="#Minor-GC与Full-GC" class="headerlink" title="Minor GC与Full GC"></a>Minor GC与Full GC</h3><ul>
-<li>Minor GC：回收新生代，速度快，非常频繁</li>
-<li>Full GC：回收老年代，经常会伴随至少一次Minor GC，速度很慢</li>
-</ul>
-<p><strong>触发FullGC的操作</strong>：</p>
-<p>①调用system.gc（建议Fullgc但不一定发生）</p>
-<p>②统计得到的MinorGC晋升到老年代的平均大小大于老年代剩余空间</p>
-<p>③担保失败</p>
-<h3 id="（堆）回收谁？"><a href="#（堆）回收谁？" class="headerlink" title="（堆）回收谁？"></a><strong>（堆）回收谁？</strong></h3><p>—&gt;无效<strong>对象</strong></p>
-<p><strong>如何判断无效？</strong><br>—&gt;不被任何对象或变量引用则无效</p>
-<p><strong>引用种类</strong><br>—&gt; 强引用、软引用、弱引用、虚引用</p>
-<p><strong>如何分析引用</strong><br>—&gt; 引用技术法、可达性分析法</p>
-<h3 id="（方法区）回收谁"><a href="#（方法区）回收谁" class="headerlink" title="（方法区）回收谁"></a><strong>（方法区）回收谁</strong></h3><p>—&gt; 废弃常量、无用的类</p>
-<p><strong>判断回收</strong><br>—&gt;废弃<strong>常量</strong><br>—&gt;无用的<strong>类</strong></p>
-<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><ol>
-<li>标记-清除算法<ul>
-<li>优：（……没有？）</li>
-<li>缺：空间、时间效率都不高；产生大量不连续碎片</li>
-</ul>
-</li>
-<li>复制算法（新生代）<ul>
-<li>优：不会有内存碎片的问题</li>
-<li>缺：内存空间减少一半</li>
-</ul>
-</li>
-<li>标记-整理算法（老年代）<ul>
-<li>老年代的垃圾收集算法，不采用复制是因为老年代的对象都比较大，效率比较低</li>
-</ul>
-</li>
-<li>分代收集算法<ul>
-<li>新生代：复制算法</li>
-<li>老年代：标记-清除；标记-整理</li>
-</ul>
-</li>
-</ol>
-<h2 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h2><p>类文件</p>
-<ul>
-<li>符号引用：就是定义的各种名字：<strong>类和接口的限定全名</strong>、字段的名字和描述符、<strong>方法的名字和描述符</strong></li>
-</ul>
-<h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><p>过程： 加载、验证、准备、解析、初始化。</p>
-<ul>
-<li>解析：将常量池内的符号引用替换为直接引用的过程</li>
-</ul>
+<p>说实话这个题看了一点时间才看懂示例6种怎么来的。。。=。=<br>第一直觉是滑动窗口，但是好像，搞不出来</p>
+<span id="more"></span>
 
     </div>
 
@@ -343,9 +273,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/JVM/" rel="tag"># JVM</a>
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag"># 链表</a>
+              <a href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag"># 剑指offer</a>
+              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag"># 二叉树</a>
           </div>
 
         
@@ -354,13 +284,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/04/22/0422Leetcode%E8%AE%B0%E5%BD%95/" rel="prev" title="0422Leetcode记录">
-      <i class="fa fa-chevron-left"></i> 0422Leetcode记录
+    <a href="/2024/05/25/0525Leetcode/" rel="prev" title="0525Leetcode">
+      <i class="fa fa-chevron-left"></i> 0525Leetcode
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/04/23/0423Leetcode/" rel="next" title="0423Leetcode">
-      0423Leetcode <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -420,7 +347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E8%82%A10422-JVM-GC"><span class="nav-number">1.</span> <span class="nav-text">八股0422_JVM_GC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">1.1.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">JVM内存结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">1.1.3.</span> <span class="nav-text">内存分配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">垃圾回收策略与算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC%E4%B8%8EFull-GC"><span class="nav-number">1.2.1.</span> <span class="nav-text">Minor GC与Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%A0%86%EF%BC%89%E5%9B%9E%E6%94%B6%E8%B0%81%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">（堆）回收谁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E6%96%B9%E6%B3%95%E5%8C%BA%EF%BC%89%E5%9B%9E%E6%94%B6%E8%B0%81"><span class="nav-number">1.2.3.</span> <span class="nav-text">（方法区）回收谁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">垃圾收集算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">Class文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.5.</span> <span class="nav-text">类加载</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E6%95%B0%E5%AD%97"><span class="nav-number">1.</span> <span class="nav-text">解密数字</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
