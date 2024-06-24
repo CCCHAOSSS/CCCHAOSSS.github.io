@@ -33,7 +33,7 @@
 <meta property="og:description" content="SpringBoot的定时任务 回答了一个用@Scheduled注解配合cron表达式，也算是答上来了一个。。   使用@Scheduled注解，在注解中写明cron表达式，指定频率。同时需要在启动类上加上@EnableScheduling注解。  其实不止cron，还可以用fixedRate(上一个调用开始后再次调用的延时,不用等待上一次调用完成)，fixedDelay(等到方法执行完成后延迟该">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-22T08:54:01.000Z">
-<meta property="article:modified_time" content="2024-06-22T12:58:48.151Z">
+<meta property="article:modified_time" content="2024-06-24T02:41:43.544Z">
 <meta property="article:author" content="NekoCyan">
 <meta property="article:tag" content="面试">
 <meta property="article:tag" content="java开发">
@@ -205,10 +205,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-06-22 16:54:01 / 修改时间：20:58:48" itemprop="dateCreated datePublished" datetime="2024-06-22T16:54:01+08:00">2024-06-22</time>
+              <time title="创建时间：2024-06-22 16:54:01" itemprop="dateCreated datePublished" datetime="2024-06-22T16:54:01+08:00">2024-06-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-24 10:41:43" itemprop="dateModified" datetime="2024-06-24T10:41:43+08:00">2024-06-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -269,7 +275,7 @@
 </li>
 </ul>
 </li>
-<li><strong>使用<code>SchedulingConfigurer</code>接口</strong>，重写configureTask方法，配置定时任务。<ul>
+<li><strong>使用<code>SchedulingConfigurer</code>接口</strong>，并重写configureTask方法，配置定时任务。<ul>
 <li><blockquote>
 <p>SchedulingConfigurer是一个函数式接口，它定义了一个configureTasks(ScheduledTaskRegistrar taskRegistrar)方法。</p>
 </blockquote>
@@ -280,11 +286,11 @@
 </li>
 </ul>
 </li>
-<li>使用<code>@Async注解</code>和<code>ThreadPoolTaskScheduler</code>实现定时任务的<strong>异步执行</strong></li>
+<li>使用<code>@Async注解</code>和<code>ThreadPoolTaskScheduler</code>实现定时任务的<strong>异步执行</strong>。</li>
 </ul>
 <span id="more"></span>
 <h2 id="MySQL的ACID"><a href="#MySQL的ACID" class="headerlink" title="MySQL的ACID"></a>MySQL的ACID</h2><p>略</p>
-<h2 id="pytorch中把数据之类的放到gpu上的语句"><a href="#pytorch中把数据之类的放到gpu上的语句" class="headerlink" title="pytorch中把数据之类的放到gpu上的语句"></a>pytorch中把数据之类的放到gpu上的语句</h2><p>略</p>
+<h2 id="pytorch中把数据之类的放到gpu上的代码"><a href="#pytorch中把数据之类的放到gpu上的代码" class="headerlink" title="pytorch中把数据之类的放到gpu上的代码"></a>pytorch中把数据之类的放到gpu上的代码</h2><p>略</p>
 <h2 id="怎么判断决策树何时停止分裂节点"><a href="#怎么判断决策树何时停止分裂节点" class="headerlink" title="怎么判断决策树何时停止分裂节点"></a>怎么判断决策树何时停止分裂节点</h2><blockquote>
 <p>回答了一个观察法。。然后还说了一个要计算熵或者信息增益，进行比较决定，&lt;—-细节真的想不起来了</p>
 </blockquote>
@@ -294,7 +300,56 @@
 <li>节点的数据量小于一个指定的数量时，有利于降低过拟合的影响。</li>
 </ol>
 <h2 id="什么是幂等性，自己实现时候redis中的key存了什么"><a href="#什么是幂等性，自己实现时候redis中的key存了什么" class="headerlink" title="什么是幂等性，自己实现时候redis中的key存了什么"></a>什么是幂等性，自己实现时候redis中的key存了什么</h2><p><strong>幂等性</strong>：任意多次执行所产生的影响与一次执行的影响相同</p>
-<h2 id="redis主动更新和超时删除实现数据一致性怎么做的"><a href="#redis主动更新和超时删除实现数据一致性怎么做的" class="headerlink" title="redis主动更新和超时删除实现数据一致性怎么做的"></a>redis主动更新和超时删除实现数据一致性怎么做的</h2>
+<ol>
+<li>首先redis中要存入一个幂等性<strong>key</strong>，这个key可以是客户端也可以是服务端生成的。 <blockquote>
+<p>这个key必须是全局唯一的，可以用UUID、订单号等，加入时间戳信息、随机数等保证唯一。</p>
+</blockquote>
+</li>
+<li>之后在客户端提交任务之后，到redis中检查key是否已经存在：<strong>不存在，则存入key，执行后续操作</strong>（这里判断和存入必须原子操作，存入操作记得设置过期时间）；存在，则返回信息，不进行后续处理。</li>
+<li>这里我们关心的是key，所以对应的value可以设置一个简单标志就行（比如processed）</li>
+</ol>
+<h2 id="redis主动更新和超时删除实现数据一致性怎么做的"><a href="#redis主动更新和超时删除实现数据一致性怎么做的" class="headerlink" title="redis主动更新和超时删除实现数据一致性怎么做的"></a>redis主动更新和超时删除实现数据一致性怎么做的</h2><blockquote>
+<p>这里真是大寄特寄了== 啊啊啊为什么我没看到这里</p>
+</blockquote>
+<p>首先，在项目里使用到redis的地方都是很简单的实现方式：</p>
+<ol>
+<li>新增菜品—&gt;存入数据库，然后删掉【该菜品对应种类】缓存内容</li>
+<li>删除菜品—&gt;删除数据库中菜品，然后删除【所有菜品】缓存内容</li>
+<li>修改菜品—&gt;修改数据库中信息，然后删除【所有菜品】缓存</li>
+<li>菜品启售停售（其实就是上架下架）—&gt;根据菜品当前status和id到数据库中改变status，然后删除【所有菜品】缓存</li>
+</ol>
+<p>项目中的实现方式应该算是主动更新，<strong>即：在 更新了数据库时候，主动去删除缓存中的内容，等待下一次查询这些信息时候重建缓存，并会设置缓存过期时间用于兜底</strong> &lt;—-也许算一种旁路缓存（Cache Aside Pattern）机制？</p>
+<blockquote>
+<p>在这种模式下，应用程序同时与缓存和数据库进行交互，以维护缓存和数据库之间的一致性。</p>
+<p>除了这种方式，还有：</p>
+<ul>
+<li><strong>旁路缓存</strong>：当应用程序需要数据时，它首先尝试从缓存中获取。如果缓存中存在所需数据（缓存命中），则直接返回；如果缓存中不存在（缓存未命中），则从数据库中检索数据，并将其存储到缓存中，然后再返回给应用程序。</li>
+<li><strong>发布订阅机制</strong>：(Pub/Sub)后端数据发生变化时，可以发布一个消息或事件。Redis订阅这些消息或事件的客户端会收到通知，并主动更新相应的缓存数据。</li>
+<li><strong>消息队列</strong>：当数据发生变化时，将更新请求发送到消息队列中。Redis客户端监听该队列，一旦有新的更新请求，就主动从队列中取出并更新缓存。</li>
+</ul>
+<p>发布订阅和消息队列是有很大<strong>区别</strong>的：</p>
+<ul>
+<li><p><strong>概念定义</strong></p>
+<ul>
+<li>发布订阅是将消息发布在特定的频道或主题上，并不会直接发给订阅者，只有订阅了这些频道或主题的才会收到</li>
+<li>消息队列是一个进程向另一个进程发布数据块。</li>
+</ul>
+</li>
+<li><p><strong>数据结构和存储</strong></p>
+<ul>
+<li>发布订阅模式将消息发布到主题或命名通道上，并不一定按序传递，也不支持离线消息持久化。</li>
+<li>消息队列基于队列结构，消息是先入先出的顺序，并且支持离线<strong>消息持久化</strong>（这里还得再看）。</li>
+</ul>
+</li>
+<li><p><strong>使用场景</strong></p>
+<ul>
+<li>发布订阅模式主要用于实时消息的广播和传递，一般一对多或多对多场景下，比如在实时聊天系统、新闻推送等。</li>
+<li>消息队列就是用在异步操作、大流量时候削峰填谷，适用于跨进程、跨服务器、跨网络传输消息的场景。比如在分布式系统中，不同服务之间可以通过消息队列配合完成任务。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
     </div>
 
     
@@ -376,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot的定时任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL%E7%9A%84ACID"><span class="nav-number">2.</span> <span class="nav-text">MySQL的ACID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch%E4%B8%AD%E6%8A%8A%E6%95%B0%E6%8D%AE%E4%B9%8B%E7%B1%BB%E7%9A%84%E6%94%BE%E5%88%B0gpu%E4%B8%8A%E7%9A%84%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.</span> <span class="nav-text">pytorch中把数据之类的放到gpu上的语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E5%86%B3%E7%AD%96%E6%A0%91%E4%BD%95%E6%97%B6%E5%81%9C%E6%AD%A2%E5%88%86%E8%A3%82%E8%8A%82%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">怎么判断决策树何时停止分裂节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%8C%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E6%97%B6%E5%80%99redis%E4%B8%AD%E7%9A%84key%E5%AD%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">5.</span> <span class="nav-text">什么是幂等性，自己实现时候redis中的key存了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%92%8C%E8%B6%85%E6%97%B6%E5%88%A0%E9%99%A4%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">redis主动更新和超时删除实现数据一致性怎么做的</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot的定时任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL%E7%9A%84ACID"><span class="nav-number">2.</span> <span class="nav-text">MySQL的ACID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch%E4%B8%AD%E6%8A%8A%E6%95%B0%E6%8D%AE%E4%B9%8B%E7%B1%BB%E7%9A%84%E6%94%BE%E5%88%B0gpu%E4%B8%8A%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">pytorch中把数据之类的放到gpu上的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E5%86%B3%E7%AD%96%E6%A0%91%E4%BD%95%E6%97%B6%E5%81%9C%E6%AD%A2%E5%88%86%E8%A3%82%E8%8A%82%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">怎么判断决策树何时停止分裂节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%8C%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E6%97%B6%E5%80%99redis%E4%B8%AD%E7%9A%84key%E5%AD%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">5.</span> <span class="nav-text">什么是幂等性，自己实现时候redis中的key存了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%92%8C%E8%B6%85%E6%97%B6%E5%88%A0%E9%99%A4%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">redis主动更新和超时删除实现数据一致性怎么做的</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
