@@ -33,7 +33,7 @@
 <meta property="og:description" content="引用和对象 new运算符，new创建对象实例（对象实例在堆内存中），对象引用指向对象实例（对象引用存放在栈内存中）。  对象相等和引用相等的区别：对象相等一般比较的是内存中存放的内容是否相等。引用相等一般比较的是他们指向的内存地址是否相等。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-07T06:56:21.000Z">
-<meta property="article:modified_time" content="2024-06-12T08:58:55.467Z">
+<meta property="article:modified_time" content="2024-06-26T01:54:27.486Z">
 <meta property="article:author" content="NekoCyan">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">53</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">56</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-neko的推荐">
@@ -212,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-12 16:58:55" itemprop="dateModified" datetime="2024-06-12T16:58:55+08:00">2024-06-12</time>
+                <time title="修改时间：2024-06-26 09:54:27" itemprop="dateModified" datetime="2024-06-26T09:54:27+08:00">2024-06-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,6 +295,7 @@
 </li>
 </ul>
 <h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>首先明确<strong>Class</strong>类。Class类是Java反射机制中的核心类之一，是一个类！每个类或接口在Java<strong>运行时都有一个对应的Class对象</strong>，该对象存储了这个类或接口的所有信息，如类名、包名、方法、字段、构造函数等。</p>
+<blockquote>
 <p>获取Class类的四种方式：</p>
 <ol>
 <li>通过类字面常量（知道具体类的情况下）。</li>
@@ -302,6 +303,51 @@
 <li>通过对象实例instance.getClass()获取.(instance是具体对象)。</li>
 <li>通过类加载器xxxClassLoader.loadClass()传入类路径获取。</li>
 </ol>
+</blockquote>
+<p>首先明白[正]：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Apple</span> <span class="variable">apple</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Apple</span>();  <span class="comment">//直接初始化，【正射】</span></span><br><span class="line">apple.setPrice(<span class="number">4</span>);</span><br></pre></td></tr></table></figure></p>
+<p>如果应用[<strong>反射</strong>]：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;com.limei.dao.entity.Apple&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> clz.getMethod(<span class="string">&quot;serPrice&quot;</span>, <span class="type">int</span>.class);</span><br><span class="line"><span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> clz.getConstructor();</span><br><span class="line"><span class="type">Object</span> <span class="variable">object</span> <span class="operator">=</span> constructor.newInstance();</span><br><span class="line">method.invoke(object, <span class="number">4</span>);</span><br></pre></td></tr></table></figure><br>上面两端代码的执行结果是一样的，一个是直接设置，一个利用反射，先获取到Class类，再获取方法、构造函数，然后创建这个类的实例对象，再使用invoke调用方法设置值。</p>
+<p>再来一段更完整的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Apple</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getPrice</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrice</span><span class="params">(<span class="type">int</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="comment">//正常的调用</span></span><br><span class="line">        <span class="type">Apple</span> <span class="variable">apple</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Apple</span>();</span><br><span class="line">        apple.setPrice(<span class="number">5</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Apple Price:&quot;</span> + apple.getPrice());</span><br><span class="line">        <span class="comment">//使用反射调用</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;com.chenshuyi.api.Apple&quot;</span>);</span><br><span class="line">        <span class="type">Method</span> <span class="variable">setPriceMethod</span> <span class="operator">=</span> clz.getMethod(<span class="string">&quot;setPrice&quot;</span>, <span class="type">int</span>.class);</span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">appleConstructor</span> <span class="operator">=</span> clz.getConstructor();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">appleObj</span> <span class="operator">=</span> appleConstructor.newInstance();</span><br><span class="line">        setPriceMethod.invoke(appleObj, <span class="number">14</span>);</span><br><span class="line">        <span class="type">Method</span> <span class="variable">getPriceMethod</span> <span class="operator">=</span> clz.getMethod(<span class="string">&quot;getPrice&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Apple Price:&quot;</span> + getPriceMethod.invoke(appleObj));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>从代码中可以看到我们使用反射调用了 setPrice 方法，并传递了 14 的值。之后使用反射调用了 getPrice 方法，输出其价格。</p>
+<h3 id="使用反射获取一个对象步骤："><a href="#使用反射获取一个对象步骤：" class="headerlink" title="使用反射获取一个对象步骤："></a>使用反射获取一个对象步骤：</h3><ul>
+<li><p><strong>获取类的Class对象实例</strong></p>
+<blockquote>
+<p>Class clz = Class.forName(“具体类路径”)；</p>
+</blockquote>
+</li>
+<li><p><strong>根据Class对象获取类的Constructor对象</strong></p>
+<blockquote>
+<p>Constructor appleConstructor = clz.getConstructor();</p>
+</blockquote>
+</li>
+<li><p><strong>使用Constructor对象的newInstance方法获取反射类对象</strong></p>
+<blockquote>
+<p>Object appleobj = appleConstructor.newInstance();</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="如果是要调用某一个方法"><a href="#如果是要调用某一个方法" class="headerlink" title="如果是要调用某一个方法"></a>如果是要调用某一个方法</h3><ul>
+<li><p>获取方法的Method对象</p>
+<blockquote>
+<p>Method setPriceMethod = clz.getMethod(“setPrice”, int.class);</p>
+</blockquote>
+</li>
+<li><p>利用invoke方法调用方法、赋值</p>
+<blockquote>
+<p>setPriceMethod.invoke(appleObj, 14);</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="一些常用API"><a href="#一些常用API" class="headerlink" title="一些常用API"></a>一些常用API</h3><p>在 Java API 中，获取<strong>Class 类对象</strong>有三种方法：</p>
+<ul>
+<li>第一种，使用 <strong>Class.forName</strong> 静态方法。当你知道该类的全路径名时，可以使用该方法获取 Class 类对象。</li>
+<li>第二种，使用 <strong>.class</strong> 方法。这种方法只适合在编译前就知道操作的<strong>Class</strong>（指具体的类，不是对象）。<blockquote>
+<p>Class clz = String.class;</p>
+</blockquote>
+</li>
+<li>第三种，使用类<strong>对象（实例对象）</strong>的 <strong>getClass()</strong>方法。<blockquote>
+<p>String str = new String(“Hello”);<br>Class clz = str.getClass();</p>
+</blockquote>
+</li>
+</ul>
 <h2 id="过滤器和拦截器"><a href="#过滤器和拦截器" class="headerlink" title="过滤器和拦截器"></a>过滤器和拦截器</h2><p><strong>实现原理</strong>不同—-使得—-&gt;<strong>触发的时机</strong>不同—-使得—-&gt;<strong>拦截的请求范围</strong>不同—-使得—-&gt;<strong>使用时机和场景</strong>不同</p>
 <ul>
 <li><strong>实现原理</strong>：<ul>
@@ -410,7 +456,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">引用和对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E3%80%81%E5%BC%95%E7%94%A8%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.</span> <span class="nav-text">深拷贝、浅拷贝、引用拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">4.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%92%8C%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">过滤器和拦截器</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">引用和对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E3%80%81%E5%BC%95%E7%94%A8%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.</span> <span class="nav-text">深拷贝、浅拷贝、引用拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">4.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">使用反射获取一个对象步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%98%AF%E8%A6%81%E8%B0%83%E7%94%A8%E6%9F%90%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">如果是要调用某一个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8API"><span class="nav-number">4.3.</span> <span class="nav-text">一些常用API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%92%8C%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">过滤器和拦截器</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -426,7 +472,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -439,7 +485,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
