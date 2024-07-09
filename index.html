@@ -407,10 +407,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-06-28 09:50:49 / 修改时间：10:48:09" itemprop="dateCreated datePublished" datetime="2024-06-28T09:50:49+08:00">2024-06-28</time>
+              <time title="创建时间：2024-06-28 09:50:49" itemprop="dateCreated datePublished" datetime="2024-06-28T09:50:49+08:00">2024-06-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-03 13:24:54" itemprop="dateModified" datetime="2024-07-03T13:24:54+08:00">2024-07-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -459,6 +465,15 @@
 <li><p>从<code>char[]</code>转到string，可以使用<code>String str = new String(charList)</code></p>
 </li>
 <li><p>用map的values初始化一个ArrayList时可以写：<code>new ArrayList&lt;T&gt;(map.values())</code>，T由具体类型决定。</p>
+</li>
+<li><p>Queue队列的<code>peek</code>是返回头部元素而不会将其移除。<code>poll</code>返回头部元素，不存在返回null</p>
+</li>
+<li><p>Queue队列<code>offer</code>或者<code>add</code>向头部加入元素。</p>
+</li>
+<li><p>有<code>new ArrayList&lt;&gt;(list)</code>这种写法</p>
+</li>
+<li><p>从一个<code>set</code>中拿出一个元素，可以将set转为迭代器或者数组来操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代器</span></span><br><span class="line">Iterator&lt;String&gt; iterator = set.iterator();</span><br><span class="line"><span class="keyword">if</span>(iterator.hasNext())&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">element</span> <span class="operator">=</span> iterator.next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//数组</span></span><br><span class="line">String[] list = set.toArray(<span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">0</span>]);</span><br><span class="line"><span class="keyword">if</span>(list.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">element</span> <span class="operator">=</span> list[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
