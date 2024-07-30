@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">56</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -140,7 +140,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">45</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-neko的推荐">
@@ -172,6 +172,110 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/24/0524Leetcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="“风是自由的，你也是”">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/24/0524Leetcode/" class="post-title-link" itemprop="url">0524Leetcode</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-24 09:12:44" itemprop="dateCreated datePublished" datetime="2024-05-24T09:12:44+08:00">2024-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-06 15:01:41" itemprop="dateModified" datetime="2024-06-06T15:01:41+08:00">2024-06-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/05/24/0524Leetcode/" class="post-meta-item leancloud_visitors" data-flag-title="0524Leetcode" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/05/24/0524Leetcode/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/24/0524Leetcode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="无重复字符最长字串"><a href="#无重复字符最长字串" class="headerlink" title="无重复字符最长字串"></a>无重复字符最长字串</h2><p>虽然第一直觉是<code>O(n)</code>时间复杂度的双指针，但是还是写出了<code>O(n*n)</code>的。。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLongestSubstring</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; s.length()) &#123;</span><br><span class="line">            right = left;</span><br><span class="line">            <span class="keyword">while</span> (right &lt; s.length()) &#123;</span><br><span class="line">                <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> s.charAt(right);</span><br><span class="line">                <span class="keyword">if</span>(!map.containsKey(c))&#123;</span><br><span class="line">                    map.put(c, map.getOrDefault(c, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    right++;</span><br><span class="line">                    len++;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            maxLen = Math.max(maxLen, len);</span><br><span class="line">            left++;</span><br><span class="line">            len = <span class="number">0</span>;</span><br><span class="line">            map.clear();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxLen;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/05/24/0524Leetcode/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1122,143 +1226,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="“风是自由的，你也是”">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">海康25暑期实习-java开发</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-05-13 20:16:53" itemprop="dateCreated datePublished" datetime="2024-05-13T20:16:53+08:00">2024-05-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-05-14 19:04:53" itemprop="dateModified" datetime="2024-05-14T19:04:53+08:00">2024-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%94%E8%AF%95%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">笔试记录</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/" class="post-meta-item leancloud_visitors" data-flag-title="海康25暑期实习-java开发" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>是同门的笔试记录，帮忙做了一下题目。这里记录一下做题过程中自己还不太会的东西。</p>
-<h2 id="接口和抽象类内部方法的访问权限"><a href="#接口和抽象类内部方法的访问权限" class="headerlink" title="接口和抽象类内部方法的访问权限"></a>接口和抽象类内部方法的访问权限</h2><p>对抽象类来说，抽象类内部方法都是抽象方法<code>abstract</code>，但是抽象类中方法默认访问权限与普通类相同。如果没有指定访问修饰符，则默认为包内可见（即<code>default</code>访问权限）</p>
-<p>接口内的方法默认是<code>public</code>，即使没有显示地声明为public。</p>
-<p><strong>访问权限区别：</strong></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>同类</th>
-<th>同包</th>
-<th>子类</th>
-<th>其他包</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>default</td>
-<td>&check;</td>
-<td>&check;</td>
-<td>&cross;</td>
-<td>&cross;</td>
-</tr>
-<tr>
-<td>public</td>
-<td>&check;</td>
-<td>&check;</td>
-<td>&check;</td>
-<td>&check;</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="MySQL对表a加共享锁"><a href="#MySQL对表a加共享锁" class="headerlink" title="MySQL对表a加共享锁"></a>MySQL对表a加共享锁</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a LOCK IN SHARE MODE</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/05/13/%E6%B5%B7%E5%BA%B725%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0-java%E5%BC%80%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1330,7 +1297,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1343,7 +1310,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
