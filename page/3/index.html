@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">57</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">58</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -140,7 +140,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">46</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">47</span></a>
 
   </li>
         <li class="menu-item menu-item-neko的推荐">
@@ -172,6 +172,107 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/27/0527Leetcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="“风是自由的，你也是”">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/27/0527Leetcode/" class="post-title-link" itemprop="url">0527Leetcode</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-27 09:34:55 / 修改时间：16:52:06" itemprop="dateCreated datePublished" datetime="2024-05-27T09:34:55+08:00">2024-05-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/05/27/0527Leetcode/" class="post-meta-item leancloud_visitors" data-flag-title="0527Leetcode" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/05/27/0527Leetcode/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/27/0527Leetcode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="交易逆序对的总数"><a href="#交易逆序对的总数" class="headerlink" title="交易逆序对的总数"></a>交易逆序对的总数</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shu-zu-zhong-de-ni-xu-dui-lcof/">LCR170</a></p>
+<blockquote>
+<p>在股票交易中，如果前一天的股价高于后一天的股价，则可以认为存在一个「交易逆序对」。请设计一个程序，输入一段时间内的股票交易记录 record，返回其中存在的「交易逆序对」总数。</p>
+</blockquote>
+<h2 id="和为K的子数组"><a href="#和为K的子数组" class="headerlink" title="和为K的子数组"></a>和为K的子数组</h2><p>就是感觉应该和前两天那个一样，一个for+while的滑动窗口，时间复杂度为O(n)，但是，没写出来orz<br>暴力先秒，然后再看题解，<strong>这题不能用滑动窗口，因为有负数，违背滑动窗口增大时候和要增大的性质。</strong>题解使用前缀和和哈希表进行优化：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">subarraySum</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span>&#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; mp = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        mp.put(<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;nums.length; ++i)&#123;</span><br><span class="line">            sum += nums[i];</span><br><span class="line">            <span class="keyword">if</span>(mp.containKey(sum-k))&#123;</span><br><span class="line">                count += mp.get(sum-k);</span><br><span class="line">            &#125;</span><br><span class="line">            mp.put(sum, mp.getOrDefault(sum, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="滑动窗口最大值"><a href="#滑动窗口最大值" class="headerlink" title="滑动窗口最大值"></a>滑动窗口最大值</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/sliding-window-maximum/description/?envType=study-plan-v2&amp;envId=top-100-liked">hot100—239</a></p>
+<blockquote>
+<p>给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
+</blockquote>
+<p>第一直觉是暴力哈哈哈，但这样肯定会超时，所以肯定要滑动窗口做。<br>很好，滑动窗口也超时，时间复杂度是<code>O(nk)</code></p>
+<p>题解：用优先队列，有点看不懂代码说实话（。）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] maxSlidingWindow(<span class="type">int</span>[] nums, <span class="type">int</span> k) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        PriorityQueue&lt;<span class="type">int</span>[]&gt; pq = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(<span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;<span class="type">int</span>[]&gt;()&#123;</span><br><span class="line">            <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(<span class="type">int</span>[] pair1, <span class="type">int</span>[] pair2)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> pair1[<span class="number">0</span>] != pair2[<span class="number">0</span>] ? pair2[<span class="number">0</span>] - pair1[<span class="number">0</span>] : pair2[<span class="number">1</span>] - pair2[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;k; ++i)&#123;</span><br><span class="line">            pq.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;nums[i], i&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] ans = <span class="keyword">new</span> <span class="title class_">int</span>[n-k+<span class="number">1</span>];</span><br><span class="line">        ans[<span class="number">0</span>] = pq.peek()[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=k; i&lt;n; ++i)&#123;</span><br><span class="line">            pq.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;nums[i], i&#125;);</span><br><span class="line">            <span class="keyword">while</span> (pq.peek()[<span class="number">1</span>] &lt;= i-k) &#123;</span><br><span class="line">                pq.poll();</span><br><span class="line">            &#125;</span><br><span class="line">            ans[i-k+<span class="number">1</span>] = pq.peek()[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1128,120 +1229,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="NekoCyan">
-      <meta itemprop="description" content="“风是自由的，你也是”">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NekoCyan's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">【hmdp】秒杀超卖与一人一单问题</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-05-18 10:22:50" itemprop="dateCreated datePublished" datetime="2024-05-18T10:22:50+08:00">2024-05-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-05-20 19:46:45" itemprop="dateModified" datetime="2024-05-20T19:46:45+08:00">2024-05-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">Java项目</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="【hmdp】秒杀超卖与一人一单问题" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="使用乐观锁—超卖问题"><a href="#使用乐观锁—超卖问题" class="headerlink" title="使用乐观锁—超卖问题"></a>使用乐观锁—超卖问题</h2><p>在完全不考虑其他问题时候，整个业务流程是这样的：</p>
-<ol>
-<li>查询优惠卷</li>
-<li>判断秒杀是否开始</li>
-<li>判断秒杀是否结束</li>
-<li>判断优惠卷是否充足</li>
-<li>扣减库存</li>
-<li>创建订单</li>
-<li>返回订单id</li>
-</ol>
-<p>由于在该方法中涉及到扣减库存和创建订单，是对两个表进行写操作，要加上事务注解。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/05/18/%E3%80%90hmdp%E3%80%91%E7%A7%92%E6%9D%80%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1313,7 +1300,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1326,7 +1313,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -25,17 +25,21 @@
     var CONFIG = {"hostname":"ccchaosss.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="“风是自由的，你也是”">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NekoCyan&#39;s Blog">
-<meta property="og:url" content="https://ccchaosss.github.io/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/index.html">
+  <meta name="description" content="这个问题在这么多面试中已经被问了两次了！下次一定不能再只能说redis快了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“为什么要用redis”">
+<meta property="og:url" content="https://ccchaosss.github.io/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/index.html">
 <meta property="og:site_name" content="NekoCyan&#39;s Blog">
-<meta property="og:description" content="“风是自由的，你也是”">
+<meta property="og:description" content="这个问题在这么多面试中已经被问了两次了！下次一定不能再只能说redis快了。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-30T05:43:13.000Z">
+<meta property="article:modified_time" content="2024-07-30T06:41:39.834Z">
 <meta property="article:author" content="NekoCyan">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="Redis、">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccchaosss.github.io/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/">
+<link rel="canonical" href="https://ccchaosss.github.io/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/">
 
 
 <script id="page-configurations">
@@ -43,12 +47,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: 桶排序 | NekoCyan's Blog</title>
+  <title>“为什么要用redis” | NekoCyan's Blog</title>
   
 
 
@@ -170,57 +174,164 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ccchaosss.github.io/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="NekoCyan">
+      <meta itemprop="description" content="“风是自由的，你也是”">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NekoCyan's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          “为什么要用redis”
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-07-30 13:43:13 / 修改时间：14:41:39" itemprop="dateCreated datePublished" datetime="2024-07-30T13:43:13+08:00">2024-07-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java%E5%85%AB%E8%82%A1/" itemprop="url" rel="index"><span itemprop="name">Java八股</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/" class="post-meta-item leancloud_visitors" data-flag-title="“为什么要用redis”" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">桶排序
-          <small>标签</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/07/30/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8redis/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+        <p>这个问题在这么多面试中已经被问了两次了！下次一定不能再只能说redis快了。</p>
+<span id="more"></span>
+<h2 id="redis本身特性"><a href="#redis本身特性" class="headerlink" title="redis本身特性"></a>redis本身特性</h2><p>redis是一个高性能的键值存储系统，它提供了许多功能和优势，使其成为许多应用程序架构中的关键组件。</p>
+<ol>
+<li>速度：<br>redis将数据存在内存中，能提供亚毫秒级别的响应，非常适合对延迟敏感的场景。</li>
+<li>数据结构丰富：<br>redis中支持<code>string</code>、<code>List</code>、<code>Set</code>、<code>HashMap</code>等数据结构，能够灵活地处理各种数据模型和适应工作负载</li>
+<li>主从复制和高可用：<br>redis支持主从复制，可以构建主从架构，实现读写分离和故障转移，增强系统的可靠性和数据安全性。</li>
+<li>缓存<br>Redis经常被用作缓存层，减轻后端数据库的压力，加快应用响应速度。它可以存储热点数据，减少对慢速数据源的访问。</li>
+</ol>
+<h2 id="使用redis而不直接使用Mysql原因"><a href="#使用redis而不直接使用Mysql原因" class="headerlink" title="使用redis而不直接使用Mysql原因"></a>使用redis而不直接使用Mysql原因</h2><ol>
+<li>性能<br>Redis存储数据在内存中，提供亚毫秒级别的响应时间，而MySQL是基于磁盘的存储，即使是InnoDB引擎的缓冲池也无法与Redis的速度相提并论。在高并发场景下，Redis能够处理更多的请求，降低延迟。</li>
+<li>并发处理能力<br>redis能够比mysql处理更高的的并发请求，更有效地处理大量并发读写操。单个redis的QPS（每秒查询率）可以达到数十万甚至上百万，而Mysql的QPS通常在数千到数万之间。</li>
+<li>资源隔离<br>用redis作为缓存可以将读取操作从MySql分离出来，减少对数据库的直接访问，从而降低对数据库的负载。</li>
+<li>数据访问模式<br>redis支持多种数据结构，非常适合用于缓存常见的数据访问模式，如最近最少使用缓存（LRU）、排行榜、计数器等。</li>
+</ol>
+<h2 id="redis的线程模型"><a href="#redis的线程模型" class="headerlink" title="redis的线程模型"></a>redis的线程模型</h2><p><strong>redis的单线程是指[接收客户端请求-&gt;解析请求-&gt;进行数据读写等操作-&gt;发送给客户端]这个过程是由一个线程来完成的。</strong></p>
+<blockquote>
+<p>redis本身并不是单线程的，会有后台线程</p>
+</blockquote>
+<p><em>为什么单线程还这么快呢？</em>原因如下：</p>
+<ul>
+<li><p>redis的大部分操作都在内存中完成，并且采用了搞笑的数据结构，那么制约redis能力的可能是机器的内存或者网络带宽，而不是cpu。既然cpu不是瓶颈，那么自然就采用单线程的解决方案了</p>
+</li>
+<li><p>redis采用单线程可以避免多线程之间的竞争，省去线程切换带来的时间和性能上的开销，而且也不会导致死锁的问题。</p>
+</li>
+<li><p>redis采用了I/O多路复用机制处理大量的客户端socket请求，简单来说就是在单个线程下该机器允许内核中同时存在多个监听socket和已连接socket，内核会一直监听这些socket上的连接请求或数据请求，。一旦有请求到达，就会交给redis线程处理，这就实现一个线程处理多个io流的效果</p>
+<blockquote>
+<p>IO多路复用就是单个线程处理多个IO流，比如select/epoll机制</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>IO多路复用原理:</p>
+<ul>
+<li>传统的阻塞IO模型中，一个线程在等待某个文件描述符（比如网络套接字）的读写事件时会被阻塞，直到事件发生。这意味着如果一个线程在等待一个网络连接的数据到达，它将无法处理其他连接，即便其他连接已经准备好读写操作。</li>
+<li>IO多路复用技术允许一个线程同时监听多个文件描述符的事件，当任何一个描述符准备就绪时，操作系统会通知应用程序，这样应用程序就可以处理就绪的描述符，而无需一直阻塞等待。</li>
+</ul>
+</blockquote>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-05-23T09:06:56+08:00"
-              content="2024-05-23">
-          05-23
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/Redis%E3%80%81/" rel="tag"># Redis、</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/05/23/%E4%BB%8A%E6%97%A5%E5%88%B7%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url">
-            <span itemprop="name">今日知识点</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/07/30/%E5%AD%97%E8%8A%82%E6%B5%8B%E5%BC%80%E6%9A%91%E6%9C%9F%E5%AE%9E%E4%B9%A0%E9%9D%A2%E8%AF%95/" rel="prev" title="字节测开暑期实习面试【还没凉】">
+      <i class="fa fa-chevron-left"></i> 字节测开暑期实习面试【还没凉】
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -267,6 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E6%9C%AC%E8%BA%AB%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">redis本身特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8redis%E8%80%8C%E4%B8%8D%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8Mysql%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">使用redis而不直接使用Mysql原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">redis的线程模型</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
